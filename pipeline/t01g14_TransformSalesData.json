@@ -1,0 +1,39 @@
+{
+	"name": "t01g14_TransformSalesData",
+	"properties": {
+		"description": "Data flow for Importing Data from the Azure Data lake Store RAW instance to Processed Instance",
+		"activities": [
+			{
+				"name": "t01g14_DF_Ingest _from_raw_to_processed",
+				"description": "Data flow for performing the necessary transformations before copying the data from the RAW to the PROCESSED folder. ",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t01g14_DF_Ingest _from_raw_to_processed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t01g14"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-15T19:19:01Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

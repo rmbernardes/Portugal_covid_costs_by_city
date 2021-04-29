@@ -1,0 +1,17 @@
+{
+	"name": "t01g16_DS_PROC_ADW_ProductCategorySubCat",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g16_LS_DW_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t01g16",
+			"table": "config"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

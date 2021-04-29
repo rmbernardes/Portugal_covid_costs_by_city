@@ -1,0 +1,46 @@
+{
+	"name": "t02g09_DS_DW",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g09_LS_DW_execdata",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ConfigID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceType",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceTable",
+				"type": "varchar"
+			},
+			{
+				"name": "Active",
+				"type": "bit"
+			},
+			{
+				"name": "Frequency",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LastExecute",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "t02g09",
+			"table": "config"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

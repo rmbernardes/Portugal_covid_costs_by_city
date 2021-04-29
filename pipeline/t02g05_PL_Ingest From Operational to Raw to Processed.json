@@ -1,0 +1,154 @@
+{
+	"name": "t02g05_PL_Ingest From Operational to Raw to Processed",
+	"properties": {
+		"description": "Nesta pipeline estão os dados operacionais passados para RAW, bem como o Data Flow que passou os dados de RAW para PROCESSED",
+		"activities": [
+			{
+				"name": "Get All Tables",
+				"description": "Buscar todas as tabelas para serem \"ingested\" através da tabela Config criada no Exercício 2",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "t02g05_DS_GP05_00_DS_DW_SQLDB_Config",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Loop on tables to Ingest",
+				"description": "Em cada ciclo, uma nova tabela é \"ingested\"",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get All Tables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get All Tables').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy table data using foreach",
+							"description": "Copiar todos os dados de Operational para RAW",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "t02g05_DS_GP05_DS_OPERATIONAL_FROMCONFIG",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": "@item().SourceTable"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "t02g05_DS_GP05_DS_ADLS_FROMCONFIG",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": "@item().SourceTable"
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "t02g05_DF_Ingest From RAW to Processed",
+				"description": "Data flow para passar os dados de RAW para PROCESSED",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Loop on tables to Ingest",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t02g05_DF_Ingest From RAW to Processed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/t02g05"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-13T19:44:36Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

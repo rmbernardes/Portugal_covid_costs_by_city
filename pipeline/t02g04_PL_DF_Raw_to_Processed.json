@@ -1,0 +1,39 @@
+{
+	"name": "t02g04_PL_DF_Raw_to_Processed",
+	"properties": {
+		"description": "Pipeline to execute the transformations and ingest data from the Raw DL Storage to the DL processed storage",
+		"activities": [
+			{
+				"name": "t02g04_DF_Raw_to_Processed",
+				"description": "Data Ingestion and Transformations from DL Raw storage to DL Processed storage",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t02g04_DF_Raw_to_Processed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/t02g04"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T13:57:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

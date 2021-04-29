@@ -1,0 +1,21 @@
+{
+	"name": "t01g08_DS_DATAWAREHOUSEDB_FactResellerSales",
+	"properties": {
+		"description": "Tabela FactResellerSales no DW",
+		"linkedServiceName": {
+			"referenceName": "t01g08_LS_DATAWAREHOUSEDB_CONN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t01g08"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t01g08",
+			"table": "FactResellerSales"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

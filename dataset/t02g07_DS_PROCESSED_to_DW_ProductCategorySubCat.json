@@ -1,0 +1,34 @@
+{
+	"name": "t02g07_DS_PROCESSED_to_DW_ProductCategorySubCat",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g07_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ProductSubcategoryKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EnglishProductSubcategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductCategoryKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EnglishProductCategoryName",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "t02g07",
+			"table": "ProductCategorySubCat"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

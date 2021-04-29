@@ -1,0 +1,125 @@
+{
+	"name": "i27197 - Ingest from raw to processed",
+	"properties": {
+		"description": "Data flow for Importing Data from the Azure Data lake StoreRAW instance to Processed Instance",
+		"folder": {
+			"name": "i27197"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_RAW_ADLS_employee",
+						"type": "DatasetReference"
+					},
+					"name": "RAWEmployee"
+				},
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_RAW_ADLS_Product",
+						"type": "DatasetReference"
+					},
+					"name": "RAWProduct"
+				},
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_RAW_ADLS_ResellerSales",
+						"type": "DatasetReference"
+					},
+					"name": "RAWResellerSales"
+				},
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_RAW_ADLS_ProductCategory",
+						"type": "DatasetReference"
+					},
+					"name": "RAWProductCategory"
+				},
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_RAW_ADLS_ProductSubcategory",
+						"type": "DatasetReference"
+					},
+					"name": "RAWProductSubCategory"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_PROC_ADLS_Employee",
+						"type": "DatasetReference"
+					},
+					"name": "EmployeeSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_PROC_ADLS_Product",
+						"type": "DatasetReference"
+					},
+					"name": "ProductSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_PROC_ADLS_ProductCategory",
+						"type": "DatasetReference"
+					},
+					"name": "ProductCategorySink"
+				},
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_PROC_ADLS_ProductCategorySubCat",
+						"type": "DatasetReference"
+					},
+					"name": "RAWProductSubcategorySink"
+				},
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_PROC_ADLS_ResellerSales",
+						"type": "DatasetReference"
+					},
+					"name": "RAWResellerSalesSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RAWEmployeeSelected"
+				},
+				{
+					"name": "RAWEmployeeFilter"
+				},
+				{
+					"name": "RAWEmployeeDerived"
+				},
+				{
+					"name": "RAWProductFilter"
+				},
+				{
+					"name": "RAWProductSelect"
+				},
+				{
+					"name": "RAWResellerSalesSelect"
+				},
+				{
+					"name": "RAWResellerSalesDerived"
+				},
+				{
+					"name": "RAWProductCategorySelect"
+				},
+				{
+					"name": "RAWProductSubcategorySelect"
+				},
+				{
+					"name": "RAWProductSubcategoryUnion"
+				},
+				{
+					"name": "RAWResellerSalesUnion"
+				},
+				{
+					"name": "RAWResellerSalesSelectProductName"
+				}
+			],
+			"script": "source(output(\n\t\tEmployeeKey as string,\n\t\tParentEmployeeKey as string,\n\t\tEmployeeNationalIDAlternateKey as string,\n\t\tParentEmployeeNationalIDAlternateKey as string,\n\t\tSalesTerritoryKey as string,\n\t\tFirstName as string,\n\t\tLastName as string,\n\t\tMiddleName as string,\n\t\tNameStyle as string,\n\t\tTitle as string,\n\t\tHireDate as string,\n\t\tBirthDate as string,\n\t\tLoginID as string,\n\t\tEmailAddress as string,\n\t\tPhone as string,\n\t\tMaritalStatus as string,\n\t\tEmergencyContactName as string,\n\t\tEmergencyContactPhone as string,\n\t\tSalariedFlag as string,\n\t\tGender as string,\n\t\tPayFrequency as string,\n\t\tBaseRate as string,\n\t\tVacationHours as string,\n\t\tSickLeaveHours as string,\n\t\tCurrentFlag as string,\n\t\tSalesPersonFlag as string,\n\t\tDepartmentName as string,\n\t\tStartDate as string,\n\t\tEndDate as string,\n\t\tStatus as string,\n\t\tEmployeePhoto as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> RAWEmployee\nsource(output(\n\t\tProductKey as string,\n\t\tProductAlternateKey as string,\n\t\tProductSubcategoryKey as string,\n\t\tWeightUnitMeasureCode as string,\n\t\tSizeUnitMeasureCode as string,\n\t\tEnglishProductName as string,\n\t\tSpanishProductName as string,\n\t\tFrenchProductName as string,\n\t\tStandardCost as string,\n\t\tFinishedGoodsFlag as string,\n\t\tColor as string,\n\t\tSafetyStockLevel as string,\n\t\tReorderPoint as string,\n\t\tListPrice as string,\n\t\tSize as string,\n\t\tSizeRange as string,\n\t\tWeight as string,\n\t\tDaysToManufacture as string,\n\t\tProductLine as string,\n\t\tDealerPrice as string,\n\t\tClass as string,\n\t\tStyle as string,\n\t\tModelName as string,\n\t\tLargePhoto as string,\n\t\tEnglishDescription as string,\n\t\tFrenchDescription as string,\n\t\tChineseDescription as string,\n\t\tArabicDescription as string,\n\t\tHebrewDescription as string,\n\t\tThaiDescription as string,\n\t\tGermanDescription as string,\n\t\tJapaneseDescription as string,\n\t\tTurkishDescription as string,\n\t\tStartDate as string,\n\t\tEndDate as string,\n\t\tStatus as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> RAWProduct\nsource(output(\n\t\tProductKey as string,\n\t\tOrderDateKey as string,\n\t\tDueDateKey as string,\n\t\tShipDateKey as string,\n\t\tResellerKey as string,\n\t\tEmployeeKey as string,\n\t\tPromotionKey as string,\n\t\tCurrencyKey as string,\n\t\tSalesTerritoryKey as string,\n\t\tSalesOrderNumber as string,\n\t\tSalesOrderLineNumber as string,\n\t\tRevisionNumber as string,\n\t\tOrderQuantity as integer,\n\t\tUnitPrice as string,\n\t\tExtendedAmount as string,\n\t\tUnitPriceDiscountPct as string,\n\t\tDiscountAmount as string,\n\t\tProductStandardCost as string,\n\t\tTotalProductCost as double,\n\t\tSalesAmount as string,\n\t\tTaxAmt as string,\n\t\tFreight as string,\n\t\tCarrierTrackingNumber as string,\n\t\tCustomerPONumber as string,\n\t\tOrderDate as string,\n\t\tDueDate as string,\n\t\tShipDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWResellerSales\nsource(output(\n\t\tProductCategoryKey as string,\n\t\tProductCategoryAlternateKey as string,\n\t\tEnglishProductCategoryName as string,\n\t\tSpanishProductCategoryName as string,\n\t\tFrenchProductCategoryName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWProductCategory\nsource(output(\n\t\tProductSubcategoryKey as string,\n\t\tProductSubcategoryAlternateKey as string,\n\t\tEnglishProductSubcategoryName as string,\n\t\tSpanishProductSubcategoryName as string,\n\t\tFrenchProductSubcategoryName as string,\n\t\tProductCategoryKey as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWProductSubCategory\nRAWEmployeeFilter select(mapColumn(\n\t\tEmployeeKey,\n\t\tSalesTerritoryKey,\n\t\tFirstName,\n\t\tLastName,\n\t\tLoginID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWEmployeeSelected\nRAWEmployee filter(SalesPersonFlag=='True') ~> RAWEmployeeFilter\nRAWEmployeeSelected derive(FullName = FirstName+ \" \"+LastName) ~> RAWEmployeeDerived\nRAWProduct filter(FinishedGoodsFlag=='True') ~> RAWProductFilter\nRAWProductFilter select(mapColumn(\n\t\tProductKey,\n\t\tProductSubcategoryKey,\n\t\tProductName = EnglishProductName,\n\t\tColor\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWProductSelect\nRAWResellerSales select(mapColumn(\n\t\tProductKey,\n\t\tOrderDateKey,\n\t\tShipDateKey,\n\t\tResellerKey,\n\t\tEmployeeKey,\n\t\tSalesTerritoryKey,\n\t\tOrderQuantity,\n\t\tTotalProductCost,\n\t\tSalesAmount\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWResellerSalesSelect\nRAWResellerSalesSelect derive(Country = \"USA\",\n\t\tUnitCostAmount = divide(TotalProductCost,OrderQuantity)) ~> RAWResellerSalesDerived\nRAWProductCategory select(mapColumn(\n\t\tProductCategoryKey,\n\t\tEnglishProductCategoryName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWProductCategorySelect\nRAWProductSubCategory select(mapColumn(\n\t\tProductSubcategoryKey,\n\t\tEnglishProductSubcategoryName,\n\t\tProductCategoryKey\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWProductSubcategorySelect\nRAWProductSubcategorySelect, RAWProductCategorySelect union(byName: true)~> RAWProductSubcategoryUnion\nRAWResellerSalesDerived, RAWProductSelect union(byName: true)~> RAWResellerSalesUnion\nRAWResellerSalesUnion select(mapColumn(\n\t\tProductKey,\n\t\tOrderDateKey,\n\t\tShipDateKey,\n\t\tResellerKey,\n\t\tEmployeeKey,\n\t\tSalesTerritoryKey,\n\t\tOrderQuantity,\n\t\tTotalProductCost,\n\t\tSalesAmount,\n\t\tCountry,\n\t\tUnitCostAmount,\n\t\tProductName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWResellerSalesSelectProductName\nRAWEmployeeDerived sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> EmployeeSink\nRAWProductSelect sink(input(\n\t\tEmployeeKey as string,\n\t\tSalesTerritoryKey as string,\n\t\tFirstName as string,\n\t\tLastName as string,\n\t\tLoginID as string,\n\t\tFullName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ProductSink\nRAWProductCategorySelect sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ProductCategorySink\nRAWProductSubcategoryUnion sink(input(\n\t\tProductSubcategoryKey as string,\n\t\tEnglishProductSubcategoryName as string,\n\t\tProductCategoryKey as string,\n\t\tEnglishProductCategoryName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWProductSubcategorySink\nRAWResellerSalesSelectProductName sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWResellerSalesSink"
+		}
+	}
+}

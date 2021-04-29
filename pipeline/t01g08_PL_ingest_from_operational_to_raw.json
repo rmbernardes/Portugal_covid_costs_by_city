@@ -1,0 +1,165 @@
+{
+	"name": "t01g08_PL_ingest_from_operational_to_raw",
+	"properties": {
+		"description": "ingest all tables specified in data warehouse config table with tablenames to process, from Operational Data Store to Azure Data Lake Store with a for each loop",
+		"activities": [
+			{
+				"name": "Get tables to ingest",
+				"description": "Fetch the list of tables to import from DW config table",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT SourceTable \nFROM t01g08.Config\nWHERE SourceType='SQL Operational' AND Active = 1",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "t01g08_DS_DATAWAREHOUSEDB_ConfigTable",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Loop tables to ingest",
+				"description": "ingest each table from operational db to data lake RAW storage as .csv file",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get tables to ingest",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get tables to ingest').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Ingest table to RAW folder",
+							"description": "ingest table from operational database to storage RAW folder",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "t01g08_DS_OPERATIONALDB_DINAMIC_PARAM",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLENAME": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "t01g08_DS_ADLS_DINAMIC_PARAM",
+									"type": "DatasetReference",
+									"parameters": {
+										"FILENAME": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Log last execution",
+							"description": "Set last execution time for table ingested",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Ingest table to RAW folder",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[t01g08].[UpdateLastExecution]",
+								"storedProcedureParameters": {
+									"dest": {
+										"value": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "t01g08_LS_DATAWAREHOUSEDB_CONN",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "t01g08"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-14T19:52:59Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

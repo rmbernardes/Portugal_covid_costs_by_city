@@ -1,0 +1,132 @@
+{
+	"name": "t01g11_PL_ingProcToDW",
+	"properties": {
+		"description": "Carregamento dos dados processados armazenados no Data Lake para o Data Warehouse.",
+		"activities": [
+			{
+				"name": "LoadResellerSales",
+				"description": "Copia Tabela de Resellersales  processada e existente no Data Lake e deposita informação no Data Warehouse destino",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "t01/t01g11/Processed/FactResellerSales",
+							"wildcardFileName": "*.csv",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "IF OBJECT_ID('t01g11.FactResellerSales') IS NOT NULL TRUNCATE TABLE t01g11.FactResellerSales",
+							"type": "Expression"
+						},
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "t01g11_DS_ResellerSalesProc",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "t01g11_DS_DWResellersales",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "LoadProductCategorySubCat",
+				"description": "Copia Tabela de ProductCategorySubCat processada e existente no Data Lake e deposita informação no Data Warehouse destino",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "t01/t01g11/Processed/DimProductCategorySubCat",
+							"wildcardFileName": "*.csv",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "IF OBJECT_ID('t01g11.DimProductCategorySubCat') IS NOT NULL TRUNCATE TABLE t01g11.DimProductCategorySubCat",
+							"type": "Expression"
+						},
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "t01g11_DS_ProductCategorySubCat",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "t01g11_DS_DWProductCategorySubCat",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "t01/t01g11"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T16:00:31Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

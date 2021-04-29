@@ -1,0 +1,67 @@
+{
+	"name": "i27180_geography",
+	"properties": {
+		"description": "Pipeline for ingesting the data from the source systems",
+		"activities": [
+			{
+				"name": "Ingest geography DW Data to ADLS",
+				"description": "Getting Customer data from Data\nWarehouse and storing it in Data Lake Store",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "i27180_DS_Operational_SQLDB_geography",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "i27180_DS_RAW_ADLS_geography",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "t02/i27180"
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-12-18T22:55:33Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

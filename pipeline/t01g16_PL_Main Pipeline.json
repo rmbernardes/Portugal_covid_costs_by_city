@@ -1,0 +1,70 @@
+{
+	"name": "t01g16_PL_Main Pipeline",
+	"properties": {
+		"description": "Pipeline that executes all the other pipelines",
+		"activities": [
+			{
+				"name": "Ingest from DW to RAW",
+				"description": "Imports tables in DW to RAW in loop",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g16_PL_Ingest All Tables Loop",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ingest from RAW to PROCESSED",
+				"description": "Transformation of tables in RAW with Dataflow and storage in PROCESSED",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest from DW to RAW",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g16_PL_Transfer from RAW to PROCESSED",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ingest from PROCESSED to DW",
+				"description": "Imports some tables (already processed) to DW.",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest from RAW to PROCESSED",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g16_PL_Ingest from processed to DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t01g16"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T21:37:26Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

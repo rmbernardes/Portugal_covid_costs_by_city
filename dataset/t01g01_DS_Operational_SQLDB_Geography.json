@@ -1,0 +1,64 @@
+{
+	"name": "t01g01_DS_Operational_SQLDB_Geography",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g01_LS_Operacional_Database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "GeographyKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "City",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StateProvinceCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StateProvinceName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CountryRegionCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EnglishCountryRegionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SpanishCountryRegionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FrenchCountryRegionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PostalCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesTerritoryKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IpAddressLocator",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimGeography"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

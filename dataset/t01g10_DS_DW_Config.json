@@ -1,0 +1,49 @@
+{
+	"name": "t01g10_DS_DW_Config",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g10_LS_DW_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t01g10"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ConfigId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceType",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceTable",
+				"type": "varchar"
+			},
+			{
+				"name": "Active",
+				"type": "bit"
+			},
+			{
+				"name": "Frequency",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LastExecute",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "t01g10",
+			"table": "config"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

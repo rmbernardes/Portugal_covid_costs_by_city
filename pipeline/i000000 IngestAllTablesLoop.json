@@ -1,0 +1,157 @@
+{
+	"name": "i000000 IngestAllTablesLoop",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get All Tables to Import",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "i000000_00_DS_DW_SQLDB_Config",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Loop on tables to Ingest",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get All Tables to Import",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get All Tables to Import').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy table data using foreach",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "i000000_DS_OPERATIONAL_FROMCONFIG",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": "@item().SourceTable"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "i000000_DS_ADLS_FROMCONFIG",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": {
+											"value": "@item().DestinationTable",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Updating Last Execution Date",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Copy table data using foreach",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[i000000].[UpdateLastExecution]",
+								"storedProcedureParameters": {
+									"dest": {
+										"value": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "i000000_LS_DW_EXECDATA",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "t00/i000000"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-06T21:49:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

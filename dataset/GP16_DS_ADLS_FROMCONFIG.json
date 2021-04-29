@@ -1,0 +1,36 @@
+{
+	"name": "GP16_DS_ADLS_FROMCONFIG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GP16_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "t01g16"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().TABLE_NAME,'.csv')",
+					"type": "Expression"
+				},
+				"folderPath": "t01/g16/RAW",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

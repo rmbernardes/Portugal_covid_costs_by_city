@@ -1,0 +1,24 @@
+{
+	"name": "t02g04_DS_PROC_ADLS_FactSalesQuota",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g04_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "t02/t02g04/PROCESSED",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

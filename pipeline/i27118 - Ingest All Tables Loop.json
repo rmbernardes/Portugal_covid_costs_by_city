@@ -1,0 +1,149 @@
+{
+	"name": "i27118 - Ingest All Tables Loop",
+	"properties": {
+		"description": "Ingesting all raw tables with a foreach loop",
+		"activities": [
+			{
+				"name": "Get All Tables to Import",
+				"description": "Fetch the list of tables to import",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "i27118_00_DS_DW_SQLDB_Config",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Loop on tables to Ingest",
+				"description": "In each loop a new table is ingested",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get All Tables to Import",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get All Tables to Import').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy table data using foreach",
+							"description": "Copying all data from operational to raw",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "i27118_DS_OPERATIONAL_FROMCONFIG",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": "@item().SourceTable"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "i27118_DS_ADLS_FROMCONFIG",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": "@item().DestinationTable"
+									}
+								}
+							]
+						},
+						{
+							"name": "Updating Last Execution Date",
+							"description": "Set success on the last Execution Date",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[i27118].[UpdateLastExecution]",
+								"storedProcedureParameters": {
+									"@item().SourceTable": {
+										"value": "",
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "i27118_LS_DW_EXECDATA",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/i27118"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T12:35:36Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

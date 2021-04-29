@@ -1,0 +1,128 @@
+{
+	"name": "t02g07_PL_ingest from operational database to raw data lake storage",
+	"properties": {
+		"description": "Ingesting data to raw Data Lake storage with a Lookup and foreach loop",
+		"activities": [
+			{
+				"name": "Get all tables to Import",
+				"description": "Fetch the list of tables to import",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "t02g07_DS_DW_SQLDB_Config",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Loop all tables to Ingest",
+				"description": "Loop all tables in the config table and import them to the Data Lake Storage Raw Instance\n",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get all tables to Import",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get All Tables to Import').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy table data using foreach",
+							"description": "Copying all data from operational to raw",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "t02g07_DS_Operational_FromConfig",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "t02g07_DS_ADLS_FROMCONFIG",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "t02g07"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-08T08:52:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

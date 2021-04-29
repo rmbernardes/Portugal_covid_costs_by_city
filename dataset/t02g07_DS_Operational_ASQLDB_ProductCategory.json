@@ -1,0 +1,43 @@
+{
+	"name": "t02g07_DS_Operational_ASQLDB_ProductCategory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GR07_LS_Operational_SQL_Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t02g07"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ProductCategoryKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProductCategoryAlternateKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EnglishProductCategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SpanishProductCategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FrenchProductCategoryName",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimProductCategory"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,76 @@
+{
+	"name": "i27107 - Egress To Azure DW",
+	"properties": {
+		"description": "Fetch ADLS processed data and store it in DW",
+		"activities": [
+			{
+				"name": "Egress Customers To Azure DW",
+				"description": "Fetch ADLS processed Customers data and store it in DW",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "t02/i27107/PROCESSED",
+							"wildcardFileName": {
+								"value": "dimcustomer.csv",
+								"type": "Expression"
+							},
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "IF OBJECT_ID('i27107.dimCustomer') IS NOT NULL TRUNCATE TABLE i27107.dimCustomer",
+							"type": "Expression"
+						},
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "i27107_DS_PROC_ADLS_Customers",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "i27107_DS_PROC_ADW_Customers",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "t02/i27107"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T10:33:55Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

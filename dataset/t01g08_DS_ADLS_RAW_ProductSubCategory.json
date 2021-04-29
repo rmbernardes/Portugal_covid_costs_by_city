@@ -1,0 +1,53 @@
+{
+	"name": "t01g08_DS_ADLS_RAW_ProductSubCategory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g08_LS_ADLS_CONN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t01g08"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DimProductSubcategory.csv",
+				"folderPath": "t01/g08/RAW",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ProductSubcategoryKey",
+				"type": "String"
+			},
+			{
+				"name": "ProductSubcategoryAlternateKey",
+				"type": "String"
+			},
+			{
+				"name": "EnglishProductSubcategoryName",
+				"type": "String"
+			},
+			{
+				"name": "SpanishProductSubcategoryName",
+				"type": "String"
+			},
+			{
+				"name": "FrenchProductSubcategoryName",
+				"type": "String"
+			},
+			{
+				"name": "ProductCategoryKey",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

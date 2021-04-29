@@ -1,0 +1,186 @@
+{
+	"name": "t01g10_PL_Ingest_Tables_to_DW",
+	"properties": {
+		"description": "Ingest data from processed folder of data lake to data warehouse",
+		"activities": [
+			{
+				"name": "Ingest ProductCatSubCat table DW",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "t01/t01g10/PROCESSED/dimProductCategorySubCat",
+							"wildcardFileName": "*.csv",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "IF OBJECT_ID('t01g10.ProductCategorySubCat ') IS NOT NULL TRUNCATE TABLE t01g10.ProductCategorySubCat",
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "t01g10_DS_ADLS_PROC_ProductCategorySubCat",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "t01g10_DS_DW_ProductCategorySubCat",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Get all Tables to import to DW",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "t01g10_DS_DW_Config",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Loop on tables to ingest to DW",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get all Tables to import to DW",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get all Tables to import to DW').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Ingest to DW_AllTablesConfig",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"wildcardFolderPath": {
+											"value": "@concat('t01/t01g10/PROCESSED/',item().SourceTable)",
+											"type": "Expression"
+										},
+										"wildcardFileName": "*.csv",
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"preCopyScript": {
+										"value": "@{concat('IF OBJECT_ID(''t01g10.',item().SourceTable, ''') IS NOT NULL TRUNCATE TABLE t01g10.',item().SourceTable)}",
+										"type": "Expression"
+									},
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "t01g10_DS_ADLS_PROC_AllTables",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "t01g10_DS_DW_AllTable",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": "@item().SourceTable"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/t01g10"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T13:17:38Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

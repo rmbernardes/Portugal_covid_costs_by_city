@@ -1,0 +1,25 @@
+{
+	"name": "T02G09_DS_Exercise3_3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "T02G09_LS_Operational_Data",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t02g09.config",
+			"table": {
+				"value": "@dataset().TABLE_NAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

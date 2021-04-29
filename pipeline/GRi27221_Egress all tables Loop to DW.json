@@ -1,0 +1,132 @@
+{
+	"name": "GRi27221_Egress all tables Loop to DW",
+	"properties": {
+		"description": "Egress all raw tables with a foreach loop",
+		"activities": [
+			{
+				"name": "Get All Tables to Import",
+				"description": "Fetch the list of tables to import",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "GPi27221_DS_DW_SQLDB_Config",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Loop on tables to Ingest",
+				"description": "In each loop a new table is ingested",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get All Tables to Import",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get All Tables to Import').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy table data using foreach",
+							"description": "Copying all data from operational to raw",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"preCopyScript": {
+										"value": "@{concat('IF OBJECT_ID(''GPi27221.',item().SourceTable, ''') IS NOT NULL TRUNCATE TABLE GPi27221.',item().DestinationTable)}",
+										"type": "Expression"
+									},
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "GPi27221_DS_ADLS_FROMCONFIG_v1",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "GPi27221_DW_Output",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/i27221"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-15T17:24:13Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

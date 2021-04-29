@@ -1,0 +1,27 @@
+{
+	"name": "t02g13_DS_DimEmployee_PROC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g13_LS_DataLake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "t02/g13/PROC/DimEmployeeProcessed",
+					"type": "Expression"
+				},
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,70 @@
+{
+	"name": "t01g11_PL_MainPipeline",
+	"properties": {
+		"description": "Processo de ETL que executa 3 pipelines distintas responsáveis pela extração de dados operacionais, transformação para dados processados e carregamento dos mesmos para o Data Warehouse.",
+		"activities": [
+			{
+				"name": "Extract Tables",
+				"description": "Execução da Pipeline dos dados da BD operacional e carregamento dos mesmos para o Data Lake.",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g11_PL_ingOpsToRaw",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Transform Tables",
+				"description": "Execução da Pipeline que permite a transformação dos dados brutos armazenados no Data Lake para dados processados.",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Extract Tables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g11_PL_ingRawToProc",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Load Tables",
+				"description": "Execução da Pipeline que permite o carregamento dos dados processados presentes no Data Lake para o Data Warehouse de modo a serem trabalhados para a tomada de decisão.",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Transform Tables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g11_PL_ingProcToDW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/t01g11"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T16:03:12Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

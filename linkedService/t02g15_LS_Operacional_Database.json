@@ -1,0 +1,16 @@
+{
+	"name": "t02g15_LS_Operacional_Database",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=sqldw2020.database.windows.net;initial catalog=dw;user id=t02g15",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJjOGZiOTMxZS0zMDU4LTQzZDktOGE3Yy1kMWQ2ODc3Nzk4MDEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "selfhostedintegrationruntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

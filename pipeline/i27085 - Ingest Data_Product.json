@@ -1,0 +1,66 @@
+{
+	"name": "i27085 - Ingest Data_Product",
+	"properties": {
+		"activities": [
+			{
+				"name": "Ingest Product DW Data to ALDS",
+				"description": "Getting Product Data from DW to Azure Data LakeStorage",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "i27085_DS_Opeational_SQLDB_Product",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "i27085_DS_RAW_ALDS_Product",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "t02/i27085"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-03T15:36:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

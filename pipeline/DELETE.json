@@ -1,0 +1,70 @@
+{
+	"name": "DELETE",
+	"properties": {
+		"activities": [
+			{
+				"name": "Clear data in PROCESSED folder ProductCategorySubCat",
+				"description": "Clear files in the folders corresponding to each table before inserting data. The goal is preventing duplicating (triplicating...) files inside this folders. ",
+				"type": "Delete",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_ProductCategorySubCat",
+						"type": "DatasetReference"
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"wildcardFileName": "*",
+						"enablePartitionDiscovery": false
+					}
+				}
+			},
+			{
+				"name": "Clear data in PROCESSED folders_copy1",
+				"description": "Clear files in the folders corresponding to each table presenting in config table before inserting data. The goal is preventing duplicating (triplicating...) files inside this folders. \n(Tem estar dentro do for each)",
+				"type": "Delete",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_DELETING_PROC",
+						"type": "DatasetReference",
+						"parameters": {
+							"TABLE_NAME": "@item().SourceTable"
+						}
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"wildcardFileName": "*",
+						"enablePartitionDiscovery": false
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/t01g10"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-10T18:22:52Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

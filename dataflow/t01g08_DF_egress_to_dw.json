@@ -1,0 +1,46 @@
+{
+	"name": "t01g08_DF_egress_to_dw",
+	"properties": {
+		"description": "Egress tables to Data Warehouse",
+		"folder": {
+			"name": "t01g08"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "t01g08_DS_ADLS_PROCESSED_STORE",
+						"type": "DatasetReference"
+					},
+					"name": "FactResellerSales"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g08_DS_ADLS_PROCESSED_STORE",
+						"type": "DatasetReference"
+					},
+					"name": "ProductCategorySubCat"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "t01g08_DS_DATAWAREHOUSEDB_FactResellerSales",
+						"type": "DatasetReference"
+					},
+					"name": "FactResellerSalesDWSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g08_DS_DATAWAREHOUSEDB_ProductCategorySubCat",
+						"type": "DatasetReference"
+					},
+					"name": "ProductCategorySubCatDWSink"
+				}
+			],
+			"transformations": [],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true,\n\twildcardPaths:['t01/g08/PROCESSED/FactResellerSales.csv']) ~> FactResellerSales\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true,\n\twildcardPaths:['t01/g08/PROCESSED/DimProductCategorySubCat.csv']) ~> ProductCategorySubCat\nFactResellerSales sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> FactResellerSalesDWSink\nProductCategorySubCat sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ProductCategorySubCatDWSink"
+		}
+	}
+}

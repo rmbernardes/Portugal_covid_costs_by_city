@@ -1,0 +1,217 @@
+{
+	"name": "t01g10_DF_Transform_Data",
+	"properties": {
+		"description": "Transform Data and ingest from raw to processed.",
+		"folder": {
+			"name": "t01g10"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_RAW_Employee",
+						"type": "DatasetReference"
+					},
+					"name": "RAWEmployee"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_RAW_Product",
+						"type": "DatasetReference"
+					},
+					"name": "RAWProduct"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_RAW_ProductCategory",
+						"type": "DatasetReference"
+					},
+					"name": "RAWProductCategory"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_RAW_ProductSubCategory",
+						"type": "DatasetReference"
+					},
+					"name": "RAWProductSubCategory"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_RAW_SalesTerritory",
+						"type": "DatasetReference"
+					},
+					"name": "RAWSalesTerritory"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_RAW_FactResellerSales",
+						"type": "DatasetReference"
+					},
+					"name": "RAWFactResellerSales"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_RAW_FactSalesQuota",
+						"type": "DatasetReference"
+					},
+					"name": "RAWFactSalesQuota"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_RAW_Reseller",
+						"type": "DatasetReference"
+					},
+					"name": "RAWReseller"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_RAW_Geography",
+						"type": "DatasetReference"
+					},
+					"name": "RAWGeography"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_RAW_Date",
+						"type": "DatasetReference"
+					},
+					"name": "RAWDate"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_Employee",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWEmployee"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_Product",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWProduct"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_ProductCategory",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWProductCategory"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_ProductSubcategory",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWProductSubCategory"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_SalesTerritory",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWSalesTerritory"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_FactResellerSales",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWFactResellerSales"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_FactSalesQuota",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWFactSalesQuota"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_Reseller",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWReseller"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_Geography",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWGeography"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_Date",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWDate"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g10_DS_ADLS_PROC_ProductCategorySubCat",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRAWProductCategorySubCat"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SeletedRAWEmployee"
+				},
+				{
+					"name": "FilterRAWEEmployee"
+				},
+				{
+					"name": "DerivedRAWEmployee"
+				},
+				{
+					"name": "SelectRAWProduct"
+				},
+				{
+					"name": "FilterRAWProduct"
+				},
+				{
+					"name": "SelectRAWProductCategory"
+				},
+				{
+					"name": "SelectRAWProductSubCategory"
+				},
+				{
+					"name": "SelectRAWSalesTerritory"
+				},
+				{
+					"name": "SelectRAWFactResellerSales"
+				},
+				{
+					"name": "SelectRAWFactSalesQuota"
+				},
+				{
+					"name": "SelectRAWReseller"
+				},
+				{
+					"name": "SelectRAWGeography"
+				},
+				{
+					"name": "SelectRAWDate"
+				},
+				{
+					"name": "DerivedRAWFactResellerSales"
+				},
+				{
+					"name": "JoinRAWFactResellerSales"
+				},
+				{
+					"name": "JoinRAWProductCategorySubCat"
+				},
+				{
+					"name": "RemoveDuplicates"
+				}
+			],
+			"script": "source(output(\n\t\tEmployeeKey as integer,\n\t\tParentEmployeeKey as short,\n\t\tEmployeeNationalIDAlternateKey as integer,\n\t\tParentEmployeeNationalIDAlternateKey as string,\n\t\tSalesTerritoryKey as integer,\n\t\tFirstName as string,\n\t\tLastName as string,\n\t\tMiddleName as string,\n\t\tNameStyle as boolean,\n\t\tTitle as string,\n\t\tHireDate as string,\n\t\tBirthDate as string,\n\t\tLoginID as string,\n\t\tEmailAddress as string,\n\t\tPhone as string,\n\t\tMaritalStatus as string,\n\t\tEmergencyContactName as string,\n\t\tEmergencyContactPhone as string,\n\t\tSalariedFlag as boolean,\n\t\tGender as string,\n\t\tPayFrequency as short,\n\t\tBaseRate as double,\n\t\tVacationHours as short,\n\t\tSickLeaveHours as short,\n\t\tCurrentFlag as boolean,\n\t\tSalesPersonFlag as boolean,\n\t\tDepartmentName as string,\n\t\tStartDate as string,\n\t\tEndDate as string,\n\t\tStatus as string,\n\t\tEmployeePhoto as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWEmployee\nsource(output(\n\t\tProductKey as integer,\n\t\tProductAlternateKey as string,\n\t\tProductSubcategoryKey as short,\n\t\tWeightUnitMeasureCode as string,\n\t\tSizeUnitMeasureCode as string,\n\t\tEnglishProductName as string,\n\t\tSpanishProductName as string,\n\t\tFrenchProductName as string,\n\t\tStandardCost as double,\n\t\tFinishedGoodsFlag as boolean,\n\t\tColor as string,\n\t\tSafetyStockLevel as short,\n\t\tReorderPoint as short,\n\t\tListPrice as double,\n\t\tSize as string,\n\t\tSizeRange as string,\n\t\tWeight as double,\n\t\tDaysToManufacture as short,\n\t\tProductLine as string,\n\t\tDealerPrice as double,\n\t\tClass as string,\n\t\tStyle as string,\n\t\tModelName as string,\n\t\tLargePhoto as string,\n\t\tEnglishDescription as string,\n\t\tFrenchDescription as string,\n\t\tChineseDescription as string,\n\t\tArabicDescription as string,\n\t\tHebrewDescription as string,\n\t\tThaiDescription as string,\n\t\tGermanDescription as string,\n\t\tJapaneseDescription as string,\n\t\tTurkishDescription as string,\n\t\tStartDate as string,\n\t\tEndDate as string,\n\t\tStatus as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWProduct\nsource(output(\n\t\tProductCategoryKey as integer,\n\t\tProductCategoryAlternateKey as short,\n\t\tEnglishProductCategoryName as string,\n\t\tSpanishProductCategoryName as string,\n\t\tFrenchProductCategoryName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWProductCategory\nsource(output(\n\t\tProductSubcategoryKey as integer,\n\t\tProductSubcategoryAlternateKey as short,\n\t\tEnglishProductSubcategoryName as string,\n\t\tSpanishProductSubcategoryName as string,\n\t\tFrenchProductSubcategoryName as string,\n\t\tProductCategoryKey as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> RAWProductSubCategory\nsource(output(\n\t\tSalesTerritoryKey as integer,\n\t\tSalesTerritoryAlternateKey as short,\n\t\tSalesTerritoryRegion as string,\n\t\tSalesTerritoryCountry as string,\n\t\tSalesTerritoryGroup as string,\n\t\tSalesTerritoryImage as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWSalesTerritory\nsource(output(\n\t\tProductKey as integer,\n\t\tOrderDateKey as integer,\n\t\tDueDateKey as integer,\n\t\tShipDateKey as integer,\n\t\tResellerKey as integer,\n\t\tEmployeeKey as integer,\n\t\tPromotionKey as short,\n\t\tCurrencyKey as short,\n\t\tSalesTerritoryKey as integer,\n\t\tSalesOrderNumber as string,\n\t\tSalesOrderLineNumber as short,\n\t\tRevisionNumber as boolean,\n\t\tOrderQuantity as integer,\n\t\tUnitPrice as double,\n\t\tExtendedAmount as double,\n\t\tUnitPriceDiscountPct as double,\n\t\tDiscountAmount as double,\n\t\tProductStandardCost as double,\n\t\tTotalProductCost as decimal(10,0),\n\t\tSalesAmount as decimal(10,0),\n\t\tTaxAmt as double,\n\t\tFreight as double,\n\t\tCarrierTrackingNumber as string,\n\t\tCustomerPONumber as string,\n\t\tOrderDate as string,\n\t\tDueDate as string,\n\t\tShipDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWFactResellerSales\nsource(output(\n\t\tSalesQuotaKey as short,\n\t\tEmployeeKey as integer,\n\t\tDateKey as integer,\n\t\tCalendarYear as short,\n\t\tCalendarQuarter as short,\n\t\tSalesAmountQuota as decimal(10,0),\n\t\tDate as date 'dd/MM/yyyy'\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWFactSalesQuota\nsource(output(\n\t\tResellerKey as integer,\n\t\tGeographyKey as integer,\n\t\tResellerAlternateKey as string,\n\t\tPhone as string,\n\t\tBusinessType as string,\n\t\tResellerName as string,\n\t\tNumberEmployees as string,\n\t\tOrderFrequency as string,\n\t\tOrderMonth as string,\n\t\tFirstOrderYear as string,\n\t\tLastOrderYear as string,\n\t\tProductLine as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tAnnualSales as string,\n\t\tBankName as string,\n\t\tMinPaymentType as string,\n\t\tMinPaymentAmount as string,\n\t\tAnnualRevenue as string,\n\t\tYearOpened as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWReseller\nsource(output(\n\t\tGeographyKey as integer,\n\t\tCity as string,\n\t\tStateProvinceCode as string,\n\t\tStateProvinceName as string,\n\t\tCountryRegionCode as string,\n\t\tEnglishCountryRegionName as string,\n\t\tSpanishCountryRegionName as string,\n\t\tFrenchCountryRegionName as string,\n\t\tPostalCode as string,\n\t\tSalesTerritoryKey as integer,\n\t\tIpAddressLocator as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWGeography\nsource(output(\n\t\tDateKey as integer,\n\t\tFullDateAlternateKey as date 'dd/MM/yyyy',\n\t\tDayNumberOfWeek as string,\n\t\tEnglishDayNameOfWeek as string,\n\t\tSpanishDayNameOfWeek as string,\n\t\tFrenchDayNameOfWeek as string,\n\t\tDayNumberOfMonth as string,\n\t\tDayNumberOfYear as string,\n\t\tWeekNumberOfYear as string,\n\t\tEnglishMonthName as string,\n\t\tSpanishMonthName as string,\n\t\tFrenchMonthName as string,\n\t\tMonthNumberOfYear as integer,\n\t\tCalendarQuarter as integer,\n\t\tCalendarYear as integer,\n\t\tCalendarSemester as string,\n\t\tFiscalQuarter as string,\n\t\tFiscalYear as string,\n\t\tFiscalSemester as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWDate\nFilterRAWEEmployee select(mapColumn(\n\t\tEmployeeKey,\n\t\tSalesTerritoryKey,\n\t\tFirstName,\n\t\tLastName,\n\t\tLoginID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SeletedRAWEmployee\nRAWEmployee filter(SalesPersonFlag == true()) ~> FilterRAWEEmployee\nSeletedRAWEmployee derive(FullName = FirstName + \" \" + LastName) ~> DerivedRAWEmployee\nFilterRAWProduct select(mapColumn(\n\t\tProductKey,\n\t\tProductSubcategoryKey,\n\t\tEnglishProductName,\n\t\tColor\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRAWProduct\nRAWProduct filter(FinishedGoodsFlag == true()) ~> FilterRAWProduct\nRAWProductCategory select(mapColumn(\n\t\tProductCategoryKey,\n\t\tEnglishProductCategoryName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRAWProductCategory\nRAWProductSubCategory select(mapColumn(\n\t\tProductSubcategoryKey,\n\t\tEnglishProductSubcategoryName,\n\t\tProductCategoryKey\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRAWProductSubCategory\nRAWSalesTerritory select(mapColumn(\n\t\tSalesTerritoryKey,\n\t\tSalesTerritoryRegion,\n\t\tSalesTerritoryCountry,\n\t\tSalesTerritoryGroup\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRAWSalesTerritory\nJoinRAWFactResellerSales select(mapColumn(\n\t\tProductKey = RAWFactResellerSales@ProductKey,\n\t\tOrderDateKey,\n\t\tShipDateKey,\n\t\tResellerKey,\n\t\tEmployeeKey,\n\t\tSalesTerritoryKey,\n\t\tOrderQuantity,\n\t\tTotalProductCost,\n\t\tSalesAmount,\n\t\tProductName = EnglishProductName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRAWFactResellerSales\nRAWFactSalesQuota select(mapColumn(\n\t\tEmployeeKey,\n\t\tDateKey,\n\t\tSalesAmountQuota\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRAWFactSalesQuota\nRAWReseller select(mapColumn(\n\t\tResellerKey,\n\t\tGeographyKey,\n\t\tBusinessType,\n\t\tResellerName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRAWReseller\nRAWGeography select(mapColumn(\n\t\tGeographyKey,\n\t\tCity,\n\t\tStateProvinceName,\n\t\tEnglishCountryRegionName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRAWGeography\nRAWDate select(mapColumn(\n\t\tDateKey,\n\t\tFullDateAlternateKey,\n\t\tMonthNumberOfYear,\n\t\tCalendarQuarter,\n\t\tCalendarYear\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectRAWDate\nSelectRAWFactResellerSales derive(Country = \"USA\",\n\t\tUnitCostAmount = TotalProductCost/OrderQuantity) ~> DerivedRAWFactResellerSales\nRAWFactResellerSales, SelectRAWProduct join(RAWFactResellerSales@ProductKey == SelectRAWProduct@ProductKey,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinRAWFactResellerSales\nSelectRAWProductCategory, SelectRAWProductSubCategory join(SelectRAWProductCategory@ProductCategoryKey == SelectRAWProductSubCategory@ProductCategoryKey,\n\tjoinType:'right',\n\tbroadcast: 'auto')~> JoinRAWProductCategorySubCat\nDerivedRAWFactResellerSales aggregate(groupBy(ProductKey,\n\t\tResellerKey,\n\t\tEmployeeKey,\n\t\tSalesTerritoryKey,\n\t\tOrderDateKey,\n\t\tShipDateKey,\n\t\tOrderQuantity,\n\t\tTotalProductCost,\n\t\tSalesAmount),\n\teach(match(!in(['ProductKey','ResellerKey','EmployeeKey','SalesTerritoryKey','OrderDateKey','ShipDateKey','OrderQuantity','TotalProductCost','SalesAmount'],name)), $$ = first($$))) ~> RemoveDuplicates\nDerivedRAWEmployee sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tdateFormat:'dd/MM/yyyy',\n\ttimestampFormat:'MM/dd/yyyy HH:mm:ss',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWEmployee\nSelectRAWProduct sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWProduct\nSelectRAWProductCategory sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWProductCategory\nSelectRAWProductSubCategory sink(input(\n\t\t{10} as string,\n\t\t{Mountain Bikes} as string,\n\t\t{12} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWProductSubCategory\nSelectRAWSalesTerritory sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWSalesTerritory\nRemoveDuplicates sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWFactResellerSales\nSelectRAWFactSalesQuota sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWFactSalesQuota\nSelectRAWReseller sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWReseller\nSelectRAWGeography sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWGeography\nSelectRAWDate sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWDate\nJoinRAWProductCategorySubCat sink(allowSchemaDrift: true,\n\tvalidateSchema: true,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkRAWProductCategorySubCat"
+		}
+	}
+}

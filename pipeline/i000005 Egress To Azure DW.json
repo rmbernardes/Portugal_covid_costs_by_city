@@ -1,0 +1,127 @@
+{
+	"name": "i000005 Egress To Azure DW",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get All Tables to Import",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "GPXX_00_DS_DW_SQLDB_Config",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Loop on tables to Ingest",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get All Tables to Import",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get All Tables to Import').output.value ",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy table data using foreach",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"preCopyScript": {
+										"value": "@{concat('IF OBJECT_ID(''i000005.',item().SourceTable, ''') IS NOT NULL TRUNCATE TABLE i000005.',item().DestinationTable)}",
+										"type": "Expression"
+									},
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "i000005_DS_ADLS_FROMCONFIG",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "i000005_DW_Output",
+									"type": "DatasetReference",
+									"parameters": {
+										"TABLE_NAME": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "t00/i000005"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-15T16:49:49Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

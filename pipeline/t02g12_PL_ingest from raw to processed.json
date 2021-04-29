@@ -1,0 +1,37 @@
+{
+	"name": "t02g12_PL_ingest from raw to processed",
+	"properties": {
+		"activities": [
+			{
+				"name": "GR12_DF_ingest data from raw to processed",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t02g12_DF_ingest data from raw to processed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t02g12"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T20:12:50Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

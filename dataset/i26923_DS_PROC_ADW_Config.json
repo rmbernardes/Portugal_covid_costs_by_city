@@ -1,0 +1,25 @@
+{
+	"name": "i26923_DS_PROC_ADW_Config",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i26923_LS_DW_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "i26923",
+			"table": {
+				"value": "@dataset().TABLE_NAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

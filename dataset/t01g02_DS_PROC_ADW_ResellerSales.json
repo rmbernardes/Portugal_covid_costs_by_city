@@ -1,0 +1,17 @@
+{
+	"name": "t01g02_DS_PROC_ADW_ResellerSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g02_LS_DW_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t01g02",
+			"table": "ResellerSales"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

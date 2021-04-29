@@ -1,0 +1,54 @@
+{
+	"name": "t01g11_DS_RAWSalesQuota",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g11_LS_DL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "FactSalesQuota.csv",
+				"folderPath": "t01/t01g11/Raw",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SalesQuotaKey",
+				"type": "String"
+			},
+			{
+				"name": "EmployeeKey",
+				"type": "String"
+			},
+			{
+				"name": "DateKey",
+				"type": "String"
+			},
+			{
+				"name": "CalendarYear",
+				"type": "String"
+			},
+			{
+				"name": "CalendarQuarter",
+				"type": "String"
+			},
+			{
+				"name": "SalesAmountQuota",
+				"type": "String"
+			},
+			{
+				"name": "Date",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

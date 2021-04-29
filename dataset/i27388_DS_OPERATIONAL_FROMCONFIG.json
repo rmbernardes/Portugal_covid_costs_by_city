@@ -1,0 +1,25 @@
+{
+	"name": "i27388_DS_OPERATIONAL_FROMCONFIG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27388_LS_OPERATIONAL_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().TABLE_NAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

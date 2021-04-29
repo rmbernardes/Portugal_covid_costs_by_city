@@ -1,0 +1,150 @@
+{
+	"name": "DelimitedText70",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g09_LS_",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DimEmployee.csv",
+				"folderPath": "t02/g09/RAW",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "EmployeeKey",
+				"type": "String"
+			},
+			{
+				"name": "ParentEmployeeKey",
+				"type": "String"
+			},
+			{
+				"name": "EmployeeNationalIDAlternateKey",
+				"type": "String"
+			},
+			{
+				"name": "ParentEmployeeNationalIDAlternateKey",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryKey",
+				"type": "String"
+			},
+			{
+				"name": "FirstName",
+				"type": "String"
+			},
+			{
+				"name": "LastName",
+				"type": "String"
+			},
+			{
+				"name": "MiddleName",
+				"type": "String"
+			},
+			{
+				"name": "NameStyle",
+				"type": "String"
+			},
+			{
+				"name": "Title",
+				"type": "String"
+			},
+			{
+				"name": "HireDate",
+				"type": "String"
+			},
+			{
+				"name": "BirthDate",
+				"type": "String"
+			},
+			{
+				"name": "LoginID",
+				"type": "String"
+			},
+			{
+				"name": "EmailAddress",
+				"type": "String"
+			},
+			{
+				"name": "Phone",
+				"type": "String"
+			},
+			{
+				"name": "MaritalStatus",
+				"type": "String"
+			},
+			{
+				"name": "EmergencyContactName",
+				"type": "String"
+			},
+			{
+				"name": "EmergencyContactPhone",
+				"type": "String"
+			},
+			{
+				"name": "SalariedFlag",
+				"type": "String"
+			},
+			{
+				"name": "Gender",
+				"type": "String"
+			},
+			{
+				"name": "PayFrequency",
+				"type": "String"
+			},
+			{
+				"name": "BaseRate",
+				"type": "String"
+			},
+			{
+				"name": "VacationHours",
+				"type": "String"
+			},
+			{
+				"name": "SickLeaveHours",
+				"type": "String"
+			},
+			{
+				"name": "CurrentFlag",
+				"type": "String"
+			},
+			{
+				"name": "SalesPersonFlag",
+				"type": "String"
+			},
+			{
+				"name": "DepartmentName",
+				"type": "String"
+			},
+			{
+				"name": "StartDate",
+				"type": "String"
+			},
+			{
+				"name": "EndDate",
+				"type": "String"
+			},
+			{
+				"name": "Status",
+				"type": "String"
+			},
+			{
+				"name": "EmployeePhoto",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,21 @@
+{
+	"name": "i26781_DS_RAW_ADLS_Currency",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i26781_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "i26781_Currency.json",
+				"folderPath": "t01/i26781",
+				"fileSystem": "storage"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

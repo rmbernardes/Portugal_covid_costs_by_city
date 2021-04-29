@@ -1,0 +1,65 @@
+{
+	"name": "i000000 Main Pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "ingest data",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "i000000 ingest data - aula6",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "ingestAllTablesLoop",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "i000000 IngestAllTablesLoop",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "egress DW",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "ingestAllTablesLoop",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ingest data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "i000000 Egress To Azure DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t00/i000000"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-06T19:15:24Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

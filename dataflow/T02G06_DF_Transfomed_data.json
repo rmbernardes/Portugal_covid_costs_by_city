@@ -1,0 +1,76 @@
+{
+	"name": "T02G06_DF_Transfomed_data",
+	"properties": {
+		"description": "Transformed Data (Exercise 5)",
+		"folder": {
+			"name": "T02G06"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "T02G06_DS_PROC_ADSL_product",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDProduct"
+				},
+				{
+					"dataset": {
+						"referenceName": "T02G06_DS_PROC_ADSL_Productcategory",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDProductCategory"
+				},
+				{
+					"dataset": {
+						"referenceName": "T02G06_DS_PROC_ADSL_FactReseller",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDResellerSales"
+				},
+				{
+					"dataset": {
+						"referenceName": "T02G06_DS_PROC_ADLS_ProductSubcategory",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDProductSubcategoy"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "T02G06_DS_TRANSF_ADLS_ResellerSales",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDResellerSalesSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "T02G06_DS_TRANS_ADLS_ProductCategorySubCat",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDProductCategorySubCat"
+				}
+			],
+			"transformations": [
+				{
+					"name": "PROCESSEDResellerSalesDerived"
+				},
+				{
+					"name": "PROCESSEDResellerSalesLookup"
+				},
+				{
+					"name": "PROCESSEDResellerSalesSelect"
+				},
+				{
+					"name": "PROCESSEDResellerSalesProductName"
+				},
+				{
+					"name": "PROCESSEDProductSubcategoryCombine"
+				}
+			],
+			"script": "source(output(\n\t\tProductKey as string,\n\t\tProductSubcategoryKey as string,\n\t\tEnglishProductName as string,\n\t\tColor as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> PROCESSEDProduct\nsource(output(\n\t\tProductCategoryKey as string,\n\t\tEnglishProductCategoryName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> PROCESSEDProductCategory\nsource(output(\n\t\tProductKey as string,\n\t\tOrderDateKey as string,\n\t\tShipDateKey as string,\n\t\tResellerKey as string,\n\t\tEmployeeKey as string,\n\t\tSalesTerritoryKey as string,\n\t\tOrderQuantity as double,\n\t\tTotalProductCost as double,\n\t\tSalesAmount as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> PROCESSEDResellerSales\nsource(output(\n\t\tProductSubcategoryKey as string,\n\t\tEnglishProductSubcategoryName as string,\n\t\tProductCategoryKey as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> PROCESSEDProductSubcategoy\nPROCESSEDResellerSales derive(Country = \"USA\",\n\t\tUnitCostAmount = divide(TotalProductCost,OrderQuantity)) ~> PROCESSEDResellerSalesDerived\nPROCESSEDResellerSalesDerived, PROCESSEDProduct lookup(PROCESSEDResellerSales@ProductKey == PROCESSEDProduct@ProductKey,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> PROCESSEDResellerSalesLookup\nPROCESSEDResellerSalesProductName select(mapColumn(\n\t\tProductKey = PROCESSEDResellerSales@ProductKey,\n\t\tOrderDateKey,\n\t\tShipDateKey,\n\t\tResellerKey,\n\t\tEmployeeKey,\n\t\tSalesTerritoryKey,\n\t\tOrderQuantity,\n\t\tTotalProductCost,\n\t\tSalesAmount,\n\t\tCountry,\n\t\tUnitCostAmount,\n\t\tProducName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PROCESSEDResellerSalesSelect\nPROCESSEDResellerSalesLookup derive(ProducName = EnglishProductName) ~> PROCESSEDResellerSalesProductName\nPROCESSEDProductSubcategoy, PROCESSEDProductCategory join(PROCESSEDProductSubcategoy@ProductCategoryKey == PROCESSEDProductCategory@ProductCategoryKey,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> PROCESSEDProductSubcategoryCombine\nPROCESSEDResellerSalesSelect sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PROCESSEDResellerSalesSink\nPROCESSEDProductSubcategoryCombine sink(input(\n\t\t{1} as string,\n\t\tBikes as string,\n\t\tProductCategoryKey as string,\n\t\tEnglishProductCategoryName as string,\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PROCESSEDProductCategorySubCat"
+		}
+	}
+}

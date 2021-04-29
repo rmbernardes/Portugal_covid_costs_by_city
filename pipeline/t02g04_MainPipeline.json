@@ -1,0 +1,70 @@
+{
+	"name": "t02g04_MainPipeline",
+	"properties": {
+		"description": "Main Pipeline to execute all pipelines",
+		"activities": [
+			{
+				"name": "t02g04_PL_Ingest_from_Operational_to_raw",
+				"description": "Executes the t02g04_PL_Ingest_from_Operational_to_raw pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g04_PL_Ingest_from_Operational_to_Raw",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "t02g04_PL_DF_Raw_to_Processed",
+				"description": "Executes the t02g04_PL_DF_Raw_to_Processed pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "t02g04_PL_Ingest_from_Operational_to_raw",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g04_PL_DF_Raw_to_Processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "t02g04_PL_Ingest from processed to DW",
+				"description": "Execute the t02g04_PL_Ingest from processed to DW pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "t02g04_PL_DF_Raw_to_Processed",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g04_PL_Ingest from processed to DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/t02g04"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-14T20:16:33Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

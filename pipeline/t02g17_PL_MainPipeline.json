@@ -1,0 +1,67 @@
+{
+	"name": "t02g17_PL_MainPipeline",
+	"properties": {
+		"description": "Pipeline to execute all 3 pipelines to extract, transform and load the data as requested",
+		"activities": [
+			{
+				"name": "t02g17_PL_Ingest from operational to raw",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g17_PL_Ingest from operational to raw",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "t02g17_PL_Ingest from Raw to Processed",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "t02g17_PL_Ingest from operational to raw",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g17_PL_Ingest from Raw to Processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "t02g17_PL_Ingest from processed to Azure SQL DW",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "t02g17_PL_Ingest from Raw to Processed",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g17_PL_Ingest from processed to Azure SQL DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/t02g17"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T18:41:39Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

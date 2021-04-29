@@ -1,0 +1,46 @@
+{
+	"name": "t02g12_DS_RAW_ADLS_ProductCategory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GR12_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DimProductCategory.csv",
+				"folderPath": "t02/t02g12/RAW",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ProductCategoryKey",
+				"type": "String"
+			},
+			{
+				"name": "ProductCategoryAlternateKey",
+				"type": "String"
+			},
+			{
+				"name": "EnglishProductCategoryName",
+				"type": "String"
+			},
+			{
+				"name": "SpanishProductCategoryName",
+				"type": "String"
+			},
+			{
+				"name": "FrenchProductCategoryName",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

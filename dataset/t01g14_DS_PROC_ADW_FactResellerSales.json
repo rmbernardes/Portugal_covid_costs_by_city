@@ -1,0 +1,17 @@
+{
+	"name": "t01g14_DS_PROC_ADW_FactResellerSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g14_LS_DW_Data",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t01g14",
+			"table": "FactResellerSales"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

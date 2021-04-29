@@ -1,0 +1,70 @@
+{
+	"name": "i27281_DS_RAW_ADLS_FactInternetSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27281_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "i27281_FactInternetSales.csv",
+				"folderPath": "t02/i27281",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "GeographyKey",
+				"type": "String"
+			},
+			{
+				"name": "City",
+				"type": "String"
+			},
+			{
+				"name": "StateProvinceCode",
+				"type": "String"
+			},
+			{
+				"name": "StateProvinceName",
+				"type": "String"
+			},
+			{
+				"name": "CountryRegionCode",
+				"type": "String"
+			},
+			{
+				"name": "EnglishCountryRegionName",
+				"type": "String"
+			},
+			{
+				"name": "SpanishCountryRegionName",
+				"type": "String"
+			},
+			{
+				"name": "FrenchCountryRegionName",
+				"type": "String"
+			},
+			{
+				"name": "PostalCode",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryKey",
+				"type": "String"
+			},
+			{
+				"name": "IpAddressLocator",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

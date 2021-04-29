@@ -1,0 +1,103 @@
+{
+	"name": "WebSalesFactTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i26923_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "i26923_WebSales.json",
+				"folderPath": "t01/i26923",
+				"fileSystem": "storage"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"ProductKey": {
+					"type": "integer"
+				},
+				"OrderDateKey": {
+					"type": "integer"
+				},
+				"DueDateKey": {
+					"type": "integer"
+				},
+				"ShipDateKey": {
+					"type": "integer"
+				},
+				"CustomerKey": {
+					"type": "integer"
+				},
+				"PromotionKey": {
+					"type": "integer"
+				},
+				"CurrencyKey": {
+					"type": "integer"
+				},
+				"SalesTerritoryKey": {
+					"type": "integer"
+				},
+				"SalesOrderNumber": {
+					"type": "string"
+				},
+				"SalesOrderLineNumber": {
+					"type": "integer"
+				},
+				"RevisionNumber": {
+					"type": "integer"
+				},
+				"OrderQuantity": {
+					"type": "integer"
+				},
+				"UnitPrice": {
+					"type": "number"
+				},
+				"ExtendedAmount": {
+					"type": "number"
+				},
+				"UnitPriceDiscountPct": {
+					"type": "number"
+				},
+				"DiscountAmount": {
+					"type": "number"
+				},
+				"ProductStandardCost": {
+					"type": "number"
+				},
+				"TotalProductCost": {
+					"type": "number"
+				},
+				"SalesAmount": {
+					"type": "number"
+				},
+				"TaxAmt": {
+					"type": "number"
+				},
+				"Freight": {
+					"type": "number"
+				},
+				"CarrierTrackingNumber": {
+					"type": "null"
+				},
+				"CustomerPONumber": {
+					"type": "null"
+				},
+				"OrderDate": {
+					"type": "string"
+				},
+				"DueDate": {
+					"type": "string"
+				},
+				"ShipDate": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

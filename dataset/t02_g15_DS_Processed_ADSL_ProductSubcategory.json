@@ -1,0 +1,49 @@
+{
+	"name": "t02_g15_DS_Processed_ADSL_ProductSubcategory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02_g15_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "t02/T02G15/Processed",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "EmployeeKey",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryKey",
+				"type": "String"
+			},
+			{
+				"name": "FirstName",
+				"type": "String"
+			},
+			{
+				"name": "LastName",
+				"type": "String"
+			},
+			{
+				"name": "LoginID",
+				"type": "String"
+			},
+			{
+				"name": "FullName",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

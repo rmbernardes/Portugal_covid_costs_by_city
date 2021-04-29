@@ -1,0 +1,132 @@
+{
+	"name": "t02g04_PL_Ingest from processed to DW",
+	"properties": {
+		"description": "Ingest data from Processed Data Lake storage to the Data Warehouse",
+		"activities": [
+			{
+				"name": "Ingest ProductCategorySubCat",
+				"description": "Copy Activity to ingest ProductCategorySubCat from Processed folder in ADLS to SQL DW Database ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "t02/t02g04/PROCESSED",
+							"wildcardFileName": "ProductCategorySubCat.csv",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "IF OBJECT_ID('t02g04.ProductCategorySubCat') IS\nNOT NULL TRUNCATE TABLE t02g04.ProductCategorySubCat\n",
+							"type": "Expression"
+						},
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "t02g04_DS_PROC_ADLS_ProductSubcategory",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "t02g04_DS_PROC_ADW_ProductCategorySubCat",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Ingest FactResellerSales",
+				"description": "Copy Activity to ingest FactResellerSales from Processed folder in ADLS to SQL DW Database ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "t02/t02g04/PROCESSED",
+							"wildcardFileName": "FactResellerSales.csv",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "IF OBJECT_ID('t02g04.FactResellerSales') IS\nNOT NULL TRUNCATE TABLE t02g04.FactResellerSales\n",
+							"type": "Expression"
+						},
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "t02g04_DS_PROC_ADLS_FactResellerSales",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "t02g04_DS_PROC_ADW_FactResellerSales",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "t02/t02g04"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-14T20:16:32Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

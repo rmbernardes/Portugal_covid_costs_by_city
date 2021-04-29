@@ -1,0 +1,38 @@
+{
+	"name": "t01g11_PL_ingRawToProc",
+	"properties": {
+		"activities": [
+			{
+				"name": "Table_Processing",
+				"description": "Dataflow para transformar as tableas extraídas na pipeline anterior",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t01g11_DF_ProcessTables",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/t01g11"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T15:41:06Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

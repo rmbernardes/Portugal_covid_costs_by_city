@@ -1,0 +1,31 @@
+{
+	"name": "i26781_DS_Operational_SQLDB_Currency",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i26781_LS_Operacional_Database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "CurrencyKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CurrencyAlternateKey",
+				"type": "nchar"
+			},
+			{
+				"name": "CurrencyName",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCurrency"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

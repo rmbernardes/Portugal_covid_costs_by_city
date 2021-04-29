@@ -1,0 +1,49 @@
+{
+	"name": "t02g05_DS_GP05_00_DS_DW_SQLDB_Config",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g05_LS_GP05_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t02g05"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ConfigId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SourceType",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceTable",
+				"type": "varchar"
+			},
+			{
+				"name": "Active",
+				"type": "bit"
+			},
+			{
+				"name": "Frequency",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LastExecute",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "t02g05",
+			"table": "config"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

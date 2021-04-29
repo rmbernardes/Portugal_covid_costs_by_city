@@ -1,0 +1,50 @@
+{
+	"name": "t01g11_DS_RAWSalesTerritory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g11_LS_DL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DimSalesTerritory.csv",
+				"folderPath": "t01/t01g11/Raw",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SalesTerritoryKey",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryAlternateKey",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryRegion",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryCountry",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryGroup",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryImage",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

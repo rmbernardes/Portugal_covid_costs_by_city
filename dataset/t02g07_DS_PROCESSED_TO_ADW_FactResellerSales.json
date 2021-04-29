@@ -1,0 +1,18 @@
+{
+	"name": "t02g07_DS_PROCESSED_TO_ADW_FactResellerSales",
+	"properties": {
+		"description": "Copy activity for the FactResellerSales table to Azure DW stated for our group.",
+		"linkedServiceName": {
+			"referenceName": "t02g07_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t02g07",
+			"table": "FactResellerSales"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

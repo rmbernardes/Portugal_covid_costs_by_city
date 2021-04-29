@@ -1,0 +1,47 @@
+{
+	"name": "t01g10_PL_Main",
+	"properties": {
+		"description": "Execute pipelines.",
+		"activities": [
+			{
+				"name": "Ingest in ADLS and Transform Data",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g10_PL_Ingest_Tables_to_ADLS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ingest Data in DW",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest in ADLS and Transform Data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g10_PL_Ingest_Tables_to_DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/t01g10"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-09T23:25:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

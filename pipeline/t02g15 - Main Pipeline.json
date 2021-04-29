@@ -1,0 +1,67 @@
+{
+	"name": "t02g15 - Main Pipeline",
+	"properties": {
+		"description": " Pipeline that will invoke all others",
+		"activities": [
+			{
+				"name": "Ingest Operational to Raw",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g15_PL_ingest from operational to raw",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ingest from Raw to Processed",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest Operational to Raw",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02_g15_PL_Ingest from raw to processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Egress To Azure SQL dw",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest from Raw to Processed",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g15 - Egress To Azure SQL DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/t02g15"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-18T04:07:29Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

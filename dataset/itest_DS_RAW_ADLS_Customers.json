@@ -1,0 +1,41 @@
+{
+	"name": "itest_DS_RAW_ADLS_Customers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "itest_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "t02/test",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SalesTerritoryKey",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryRegion",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryCountry",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryGroup",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

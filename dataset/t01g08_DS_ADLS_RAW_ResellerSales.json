@@ -1,0 +1,137 @@
+{
+	"name": "t01g08_DS_ADLS_RAW_ResellerSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g08_LS_ADLS_CONN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t01g08"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "FactResellerSales.csv",
+				"folderPath": "t01/g08/RAW",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ProductKey",
+				"type": "String"
+			},
+			{
+				"name": "OrderDateKey",
+				"type": "String"
+			},
+			{
+				"name": "DueDateKey",
+				"type": "String"
+			},
+			{
+				"name": "ShipDateKey",
+				"type": "String"
+			},
+			{
+				"name": "ResellerKey",
+				"type": "String"
+			},
+			{
+				"name": "EmployeeKey",
+				"type": "String"
+			},
+			{
+				"name": "PromotionKey",
+				"type": "String"
+			},
+			{
+				"name": "CurrencyKey",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryKey",
+				"type": "String"
+			},
+			{
+				"name": "SalesOrderNumber",
+				"type": "String"
+			},
+			{
+				"name": "SalesOrderLineNumber",
+				"type": "String"
+			},
+			{
+				"name": "RevisionNumber",
+				"type": "String"
+			},
+			{
+				"name": "OrderQuantity",
+				"type": "String"
+			},
+			{
+				"name": "UnitPrice",
+				"type": "String"
+			},
+			{
+				"name": "ExtendedAmount",
+				"type": "String"
+			},
+			{
+				"name": "UnitPriceDiscountPct",
+				"type": "String"
+			},
+			{
+				"name": "DiscountAmount",
+				"type": "String"
+			},
+			{
+				"name": "ProductStandardCost",
+				"type": "String"
+			},
+			{
+				"name": "TotalProductCost",
+				"type": "String"
+			},
+			{
+				"name": "SalesAmount",
+				"type": "String"
+			},
+			{
+				"name": "TaxAmt",
+				"type": "String"
+			},
+			{
+				"name": "Freight",
+				"type": "String"
+			},
+			{
+				"name": "CarrierTrackingNumber",
+				"type": "String"
+			},
+			{
+				"name": "CustomerPONumber",
+				"type": "String"
+			},
+			{
+				"name": "OrderDate",
+				"type": "String"
+			},
+			{
+				"name": "DueDate",
+				"type": "String"
+			},
+			{
+				"name": "ShipDate",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

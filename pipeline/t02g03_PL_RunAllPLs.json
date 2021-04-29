@@ -1,0 +1,67 @@
+{
+	"name": "t02g03_PL_RunAllPLs",
+	"properties": {
+		"description": "Pipeline to run all oh the pipelines on the same place",
+		"activities": [
+			{
+				"name": "Execute operational to raw",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g03_PL_ingest from operational database to raw data lake storage",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute raw to processed",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute operational to raw",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g03_PL_ingest from raw to processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute processed to data warehouse",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute raw to processed",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g03_PL_ingest from processed to DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t02g03"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-17T01:39:35Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,39 @@
+{
+	"name": "t02g03_PL_ingest from raw to processed",
+	"properties": {
+		"description": "Ingesting all data from the raw storage folder to a processed storage folder through dataflow transformation activities",
+		"activities": [
+			{
+				"name": "t02g03_DF_ingest from raw to processed",
+				"description": "Data flow for Importing Data from the DLS RAW instance to Processed Instance\n",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t02g03_DF_ingest from raw to processed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t02g03"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T20:41:37Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

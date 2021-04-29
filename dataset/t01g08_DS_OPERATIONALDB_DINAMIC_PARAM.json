@@ -1,0 +1,29 @@
+{
+	"name": "t01g08_DS_OPERATIONALDB_DINAMIC_PARAM",
+	"properties": {
+		"description": "Parameterized Operational Table Dataset",
+		"linkedServiceName": {
+			"referenceName": "t01g08_LS_OPERATIONALDB_CONN",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLENAME": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "t01g08"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().TABLENAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

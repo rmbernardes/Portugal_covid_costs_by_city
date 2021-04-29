@@ -1,0 +1,36 @@
+{
+	"name": "t02g13_DS_ProductCategorySubCat_DW",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g13_LS_DataWarehouse",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ProductSubcategoryKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EnglishProductSubcategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EnglishProductCategoryName",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": {
+				"value": "t02g13",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "ProductCategorySubCat",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

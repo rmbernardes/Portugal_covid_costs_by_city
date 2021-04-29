@@ -1,0 +1,69 @@
+{
+	"name": "t01g02_Main Pipeline",
+	"properties": {
+		"description": "Pipeline that will invoke all others",
+		"activities": [
+			{
+				"name": "t01g02_PL_Ingest Data Flow to Processed",
+				"description": "Ingest Data",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "t01g02_PL_Ingest All Tables Loop",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g02_PL_Ingest Data Flow to Processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "t01g02_PL_Ingest All Tables Loop",
+				"description": "Ingest All Tables Loop",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g02_PL_Ingest All Tables Loop",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "t01g02_PL_Ingest from processed to DW",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "t01g02_PL_Ingest Data Flow to Processed",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g02_PL_Ingest from processed to DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t01g02"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-15T20:26:14Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

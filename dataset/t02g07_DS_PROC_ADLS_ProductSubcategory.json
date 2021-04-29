@@ -1,0 +1,27 @@
+{
+	"name": "t02g07_DS_PROC_ADLS_ProductSubcategory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GR07_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t02g07"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "t02/t02g07/PROCESSED",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

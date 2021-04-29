@@ -1,0 +1,48 @@
+{
+	"name": "i27197_DS_Operational_SQLDB_ProductSubCategory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27197_LS_Operacional_Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "i27197"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "ProductSubcategoryKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProductSubcategoryAlternateKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EnglishProductSubcategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SpanishProductSubcategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FrenchProductSubcategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductCategoryKey",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimProductSubcategory"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

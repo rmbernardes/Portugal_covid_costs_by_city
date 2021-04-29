@@ -1,0 +1,17 @@
+{
+	"name": "t02g17_DS_ProductCategorySubcat_AzureSQLDW",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g17_LS_DW_EXECDATA_AZURE SQL DB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t02g17",
+			"table": "ProductCategorySubcat"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,70 @@
+{
+	"name": "t02g07_Main_Pipeline",
+	"properties": {
+		"description": "This pipeline will execute all the pipelines created to perform the requirements of the integration project.",
+		"activities": [
+			{
+				"name": "Ingest from operational DB to raw ADLS",
+				"description": "Ingesting data from Operational database to raw Data Lake storage with a Lookup and foreach loop",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g07_PL_ingest from operational database to raw data lake storage",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ingest data from raw to processed ADLS",
+				"description": "Ingesting all data from raw storage folder to processed storage folder with dataflow activity transformations",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest from operational DB to raw ADLS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g07_PL_ingest from raw to processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ingest data from Processed to Azure DW",
+				"description": "Only the ProductCategorySubCat and FactResellersales tables",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest data from raw to processed ADLS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g07_PL_ingest from processed to DW database",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t02g07"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-08T16:56:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

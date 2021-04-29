@@ -1,0 +1,47 @@
+{
+	"name": "t02g07_DS_Operational_ASQLDB_SalesTerritory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GR07_LS_Operational_SQL_Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t02g07"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SalesTerritoryKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SalesTerritoryAlternateKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SalesTerritoryRegion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesTerritoryCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesTerritoryGroup",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesTerritoryImage",
+				"type": "varbinary"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimSalesTerritory"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

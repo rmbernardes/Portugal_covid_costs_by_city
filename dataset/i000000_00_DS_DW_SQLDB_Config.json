@@ -1,0 +1,22 @@
+{
+	"name": "i000000_00_DS_DW_SQLDB_Config",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i000000_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "sourceTable",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "i000000",
+			"table": "ConfigParameters"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

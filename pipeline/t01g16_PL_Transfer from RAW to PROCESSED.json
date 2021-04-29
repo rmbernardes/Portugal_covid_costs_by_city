@@ -1,0 +1,39 @@
+{
+	"name": "t01g16_PL_Transfer from RAW to PROCESSED",
+	"properties": {
+		"description": "Transfer and transform all RAW tables to PROCESSED",
+		"activities": [
+			{
+				"name": "t01g16_DF_Ingest from RAW to PROCESSED",
+				"description": "Transforms the RAW tables according to the Data Flow and stores them in PROCESSED folder.",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t01g16_DF_Ingest from RAW to PROCESSED",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t01g16"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T22:14:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

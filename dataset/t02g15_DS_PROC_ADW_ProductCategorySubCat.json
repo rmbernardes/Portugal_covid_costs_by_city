@@ -1,0 +1,17 @@
+{
+	"name": "t02g15_DS_PROC_ADW_ProductCategorySubCat",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g15_LS_DW_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t02g15",
+			"table": "DimProductCategorySubCat"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

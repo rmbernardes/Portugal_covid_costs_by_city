@@ -1,0 +1,26 @@
+{
+	"name": "t02g13_DS_Tables_from_Config",
+	"properties": {
+		"description": "Dataset of Tables identified in config table",
+		"linkedServiceName": {
+			"referenceName": "t02g13_LS_OperationalDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().TABLE_NAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

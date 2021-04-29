@@ -1,0 +1,25 @@
+{
+	"name": "DelimitedText69",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStoragefred",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "i27118_Customers.csv",
+				"folderPath": "t02/i27118",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

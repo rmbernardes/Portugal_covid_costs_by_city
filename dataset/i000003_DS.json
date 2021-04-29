@@ -1,0 +1,17 @@
+{
+	"name": "i000003_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i000003_LS_Oper",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCustomer"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

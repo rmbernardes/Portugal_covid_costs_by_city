@@ -1,0 +1,67 @@
+{
+	"name": "t02g07_DS_Operational_ASQLDB_Geography",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GR07_LS_Operational_SQL_Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t02g07"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "GeographyKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "City",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StateProvinceCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StateProvinceName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CountryRegionCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EnglishCountryRegionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SpanishCountryRegionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FrenchCountryRegionName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PostalCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesTerritoryKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IpAddressLocator",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimGeography"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

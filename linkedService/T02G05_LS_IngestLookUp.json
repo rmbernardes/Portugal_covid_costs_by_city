@@ -1,0 +1,13 @@
+{
+	"name": "T02G05_LS_IngestLookUp",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Exercise 2",
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=sqldw2020.database.windows.net;initial catalog=dw;user id=t02g05",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRXSU5UQVpEVEYwMl9hMzc5YTQ5ZC03ZTBjLTQ5MzMtYWRlZC05ZjEwNmFkZWI5ZTYiDQp9"
+		}
+	}
+}

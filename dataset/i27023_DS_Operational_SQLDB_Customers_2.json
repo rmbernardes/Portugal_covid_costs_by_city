@@ -1,0 +1,20 @@
+{
+	"name": "i27023_DS_Operational_SQLDB_Customers_2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27023_LS_Operacional_Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "i27023"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimCustomer"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

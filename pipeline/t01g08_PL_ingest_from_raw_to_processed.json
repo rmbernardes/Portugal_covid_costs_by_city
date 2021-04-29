@@ -1,0 +1,71 @@
+{
+	"name": "t01g08_PL_ingest_from_raw_to_processed",
+	"properties": {
+		"description": "process transformations on specific files in data lake store RAW and generate the resulting files on PROCESSED data lake store",
+		"activities": [
+			{
+				"name": "t01g08_DF_ingest_from_raw_to_processed",
+				"description": "Cleansing transformation phase from RAW to PROCESSED",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t01g08_DF_ingest_from_raw_to_processed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "t01g08_DF_enrich_processed",
+				"description": "Enrichment transformation phase on PROCESSED",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "t01g08_DF_ingest_from_raw_to_processed",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t01g08_DF_enrich_processed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t01g08"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-14T23:48:29Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,33 @@
+{
+	"name": "i26932_DS_ADLS_FROMCONFIG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i26932_LS_DATATOSINK",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().TABLE_NAME,'.csv')\n",
+					"type": "Expression"
+				},
+				"folderPath": "t01/i26932/raw",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,27 @@
+{
+	"name": "i27117_DS_PROC_ADLS_Customers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27117_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t02g17/i27117"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "t02/g17/i27117/PROCESSED",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

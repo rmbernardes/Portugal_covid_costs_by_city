@@ -1,0 +1,132 @@
+{
+	"name": "t02g03_PL_ingest from processed to DW",
+	"properties": {
+		"description": "Copy activities (ProductCategorySubCat and FactResellerSales) from the Azure DW in the Processed folder to the Azure SQL DW Database",
+		"activities": [
+			{
+				"name": "Copy Activity to ProductCategorySubCat",
+				"description": "Copy activity to ProductCategorySubCat from Processed to the Azure SQL DW Database ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "t02/t02g03/PROCESSED",
+							"wildcardFileName": "ProductCategorySubCat.csv",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "IF OBJECT_ID('t02g03.ProductCategorySubCat') IS NOT NULL TRUNCATE TABLE t02g03.ProductCategorySubCat",
+							"type": "Expression"
+						},
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "t02g03_DS_PROC_ADLS_ProductSubCategory",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "t02g03_DS_DW",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy Activity to FactResellerSales",
+				"description": "Copy activity to FactResellerSales from Processed to the Azure SQL DW Database ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "t02/t02g03/PROCESSED",
+							"wildcardFileName": "FactResellerSales.csv",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "IF OBJECT_ID('t02g03.FactResellerSales') IS NOT NULL TRUNCATE TABLE t02g03.FactResellerSales",
+							"type": "Expression"
+						},
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "t02g03_DS_PROC_ADLS_ResellerSales",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "t02g03_DS_DW_FactResellerSales",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "t02g03"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-17T19:43:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

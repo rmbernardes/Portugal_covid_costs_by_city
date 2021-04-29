@@ -1,0 +1,39 @@
+{
+	"name": "t02g09_DS_Operacional_fromconf",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g09_LS_op_data",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CurrencyKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CurrencyAlternateKey",
+				"type": "nchar"
+			},
+			{
+				"name": "CurrencyName",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().TABLE_NAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

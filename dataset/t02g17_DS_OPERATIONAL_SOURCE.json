@@ -1,0 +1,42 @@
+{
+	"name": "t02g17_DS_OPERATIONAL_SOURCE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "T02G17_LS_OPERATIONAL_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "t02g17"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CurrencyKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CurrencyAlternateKey",
+				"type": "nchar"
+			},
+			{
+				"name": "CurrencyName",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().TABLE_NAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

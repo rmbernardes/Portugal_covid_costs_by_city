@@ -1,0 +1,102 @@
+{
+	"name": "t02g04_DS_RAW_ADLS_Date",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g04_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DimDate.csv",
+				"folderPath": "t02/t02g04/RAW",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "DateKey",
+				"type": "String"
+			},
+			{
+				"name": "FullDateAlternateKey",
+				"type": "String"
+			},
+			{
+				"name": "DayNumberOfWeek",
+				"type": "String"
+			},
+			{
+				"name": "EnglishDayNameOfWeek",
+				"type": "String"
+			},
+			{
+				"name": "SpanishDayNameOfWeek",
+				"type": "String"
+			},
+			{
+				"name": "FrenchDayNameOfWeek",
+				"type": "String"
+			},
+			{
+				"name": "DayNumberOfMonth",
+				"type": "String"
+			},
+			{
+				"name": "DayNumberOfYear",
+				"type": "String"
+			},
+			{
+				"name": "WeekNumberOfYear",
+				"type": "String"
+			},
+			{
+				"name": "EnglishMonthName",
+				"type": "String"
+			},
+			{
+				"name": "SpanishMonthName",
+				"type": "String"
+			},
+			{
+				"name": "FrenchMonthName",
+				"type": "String"
+			},
+			{
+				"name": "MonthNumberOfYear",
+				"type": "String"
+			},
+			{
+				"name": "CalendarQuarter",
+				"type": "String"
+			},
+			{
+				"name": "CalendarYear",
+				"type": "String"
+			},
+			{
+				"name": "CalendarSemester",
+				"type": "String"
+			},
+			{
+				"name": "FiscalQuarter",
+				"type": "String"
+			},
+			{
+				"name": "FiscalYear",
+				"type": "String"
+			},
+			{
+				"name": "FiscalSemester",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

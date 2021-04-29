@@ -1,0 +1,45 @@
+{
+	"name": "i27197_TransformSalesData",
+	"properties": {
+		"description": "Dataflow process to prepare the Sales Data",
+		"folder": {
+			"name": "i27197"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_RAW_ADLS_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "RAWCustomers"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "i27197_DS_PROC_ADLS_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "RAWCustomersSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RAWCustomersRenamed"
+				},
+				{
+					"name": "RAWCustomersDerived"
+				},
+				{
+					"name": "RAWCustomersSelected"
+				},
+				{
+					"name": "RAWCustomersSortered"
+				}
+			],
+			"script": "source(output(\n\t\t{17806} as integer,\n\t\t{127} as integer,\n\t\tAW00017806 as string,\n\t\tProp_3 as string,\n\t\tOmar as string,\n\t\tE as string,\n\t\tKumar as string,\n\t\tFalse as boolean,\n\t\t{1969-10-12 00:00:00.0000000} as date 'dd/MM/yyyy',\n\t\tM9 as string,\n\t\tProp_10 as string,\n\t\tM11 as string,\n\t\t{omar27@adventure-works.com} as string,\n\t\t{20000.0000} as decimal(10,0),\n\t\t{214} as integer,\n\t\t{215} as integer,\n\t\t{High School} as string,\n\t\t{Educación secundaria} as string,\n\t\t{Bac + 2} as string,\n\t\tManual as string,\n\t\tObrero as string,\n\t\tOuvrier as string,\n\t\t{0} as string,\n\t\t{223} as string,\n\t\t{Hansaallee 59} as string,\n\t\tProp_25 as string,\n\t\t{1 (11) 500 555-0125} as string,\n\t\t{2013-02-17 00:00:00.0000000} as date 'dd/MM/yyyy',\n\t\t{0-1 Miles} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWCustomers\nRAWCustomers select(mapColumn(\n\t\tCustomerKey = {17806},\n\t\tGeographyKey = {127},\n\t\tCustomerAlternateKey = AW00017806,\n\t\tTitle = Prop_3,\n\t\tFirstName = Omar,\n\t\tMiddleName = E,\n\t\tLastName = Kumar,\n\t\tNameStyle = False,\n\t\tBirthDate = {1969-10-12 00:00:00.0000000},\n\t\tMaritalStatus = M9,\n\t\tSuffix = Prop_10,\n\t\tGender = M11,\n\t\tEmailAddress = {omar27@adventure-works.com},\n\t\tYearlyIncome = {20000.0000},\n\t\tTotalChildren = {214},\n\t\tNumberChildrenAtHome = {215},\n\t\tEnglishEducation = {High School},\n\t\tSpanishEducation = {Educación secundaria},\n\t\tFrenchEducation = {Bac + 2},\n\t\tEnglishOccupation = Manual,\n\t\tSpanishOccupation = Obrero,\n\t\tFrenchOccupation = Ouvrier,\n\t\tHouseOwnerFlag = {0},\n\t\tNumberCarsOwned = {223},\n\t\tAddressLine1 = {Hansaallee 59},\n\t\tAddressLine2 = Prop_25,\n\t\tPhone = {1 (11) 500 555-0125},\n\t\tDateFirstPurchase = {2013-02-17 00:00:00.0000000},\n\t\tCommuteDistance = {0-1 Miles}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWCustomersRenamed\nRAWCustomersRenamed derive(Address = AddressLine1 + \" \" + AddressLine2,\n\t\tGenderDesciption = iif(Gender==\"M\", \"Male\", \"Female\")) ~> RAWCustomersDerived\nRAWCustomersDerived select(mapColumn(\n\t\tCustomerKey,\n\t\tGeographyKey,\n\t\tCustomerAlternateKey,\n\t\tTitle,\n\t\tFirstName,\n\t\tMiddleName,\n\t\tLastName,\n\t\tNameStyle,\n\t\tBirthDate,\n\t\tMaritalStatus,\n\t\tSuffix,\n\t\tGender,\n\t\tEmailAddress,\n\t\tYearlyIncome,\n\t\tTotalChildren,\n\t\tNumberChildrenAtHome,\n\t\tEnglishEducation,\n\t\tEnglishOccupation,\n\t\tHouseOwnerFlag,\n\t\tNumberCarsOwned,\n\t\tPhone,\n\t\tDateFirstPurchase,\n\t\tCommuteDistance,\n\t\tAddress,\n\t\tGenderDesciption\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWCustomersSelected\nRAWCustomersSelected sort(asc(LastName, true),\n\tasc(MiddleName, true),\n\tasc(FirstName, true)) ~> RAWCustomersSortered\nRAWCustomersSortered sink(input(\n\t\t{17806} as string,\n\t\t{127} as string,\n\t\tAW00017806 as string,\n\t\tProp_3 as string,\n\t\tOmar as string,\n\t\tE as string,\n\t\tKumar as string,\n\t\tFalse as string,\n\t\t{1969-10-12 00:00:00.0000000} as string,\n\t\tM9 as string,\n\t\tProp_10 as string,\n\t\tM11 as string,\n\t\t{omar27@adventure-works.com} as string,\n\t\t{20000.0000} as string,\n\t\t{214} as string,\n\t\t{215} as string,\n\t\t{High School} as string,\n\t\t{Educación secundaria} as string,\n\t\t{Bac + 2} as string,\n\t\tManual as string,\n\t\tObrero as string,\n\t\tOuvrier as string,\n\t\t{0} as string,\n\t\t{223} as string,\n\t\t{Hansaallee 59} as string,\n\t\tProp_25 as string,\n\t\t{1 (11) 500 555-0125} as string,\n\t\t{2013-02-17 00:00:00.0000000} as string,\n\t\t{0-1 Miles} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWCustomersSink"
+		}
+	}
+}

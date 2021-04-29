@@ -1,0 +1,49 @@
+{
+	"name": "t02g05_PL_GR05_Main Pipeline",
+	"properties": {
+		"description": "Pipeline que evoca todas as outras",
+		"activities": [
+			{
+				"name": "Ingest Data",
+				"description": "Executa a Pipeline que passou os dados Operacionais para RAW e para PROCESSED ",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g05_PL_Ingest From Operational to Raw to Processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Egress DW",
+				"description": "Executa a pipeline que passou os dados processados das tabelas ResellerSales e ProductCategorySubCat para DW",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest Data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g05_PL_Ingest From Processed to DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/t02g05"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-13T19:44:37Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

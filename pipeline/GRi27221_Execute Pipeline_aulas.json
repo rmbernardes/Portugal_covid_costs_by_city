@@ -1,0 +1,46 @@
+{
+	"name": "GRi27221_Execute Pipeline_aulas",
+	"properties": {
+		"activities": [
+			{
+				"name": "Exec_DL_to_DW",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "GRi27221_Egress all tables Loop to DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_OP_to_DL",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_DL_to_DW",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "GRi27221_Ingest All Tables Loop",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/i27221"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-15T17:29:39Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

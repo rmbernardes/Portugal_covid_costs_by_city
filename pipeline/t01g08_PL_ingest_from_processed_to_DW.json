@@ -1,0 +1,39 @@
+{
+	"name": "t01g08_PL_ingest_from_processed_to_DW",
+	"properties": {
+		"description": "Copia para o datawarehouse tabelas da  PROCESSED store, criando-as se necessário",
+		"activities": [
+			{
+				"name": "t01g08_DF_egress_to_dw",
+				"description": "Copia para o datawarehouse tabelas da  PROCESSED store, criando-as se necessário",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t01g08_DF_egress_to_dw",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t01g08"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-14T23:48:29Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

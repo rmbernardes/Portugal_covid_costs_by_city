@@ -1,0 +1,66 @@
+{
+	"name": "t02g03_DS_DW_FactResellerSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g03_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ProductKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OrderDateKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ShipDateKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ResellerKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmployeeKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesTerritoryKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OrderQuantity",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TotalProductCost",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesAmount",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Country",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UnitCostAmount",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ProductName",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "t02g03",
+			"table": "FactResellerSales"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

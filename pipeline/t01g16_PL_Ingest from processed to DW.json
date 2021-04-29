@@ -1,0 +1,141 @@
+{
+	"name": "t01g16_PL_Ingest from processed to DW",
+	"properties": {
+		"description": "Copies the tables into the DW",
+		"activities": [
+			{
+				"name": "Egress ProductCategorySubCat To Azure DW",
+				"description": "Fetch ADLS processed data and store it in DW",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": {
+								"value": "t01/g16/PROCESSED/ProductCategorySubCat",
+								"type": "Expression"
+							},
+							"wildcardFileName": "*.csv",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "IF OBJECT_ID('t01g16.ProductCategorySubCat') IS NOT NULL TRUNCATE TABLE t01g16.ProductCategorySubCat\n",
+							"type": "Expression"
+						},
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "t01g16_DS_PROC_ADLS_DimCatDimSubCat",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "t01g16_DS_PROC_ADW_ProductCategorySubCat",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Egress DimFactResellerSales To Azure DW",
+				"description": "Fetch ADLS processed\nDimFactResellerSales data and store it in DW",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": {
+								"value": "t01/g16/PROCESSED/DimFactResellerSales",
+								"type": "Expression"
+							},
+							"wildcardFileName": {
+								"value": "*.csv",
+								"type": "Expression"
+							},
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": {
+							"value": "IF OBJECT_ID('t01g16.DimFactResellerSales') IS NOT NULL TRUNCATE TABLE t01g16.DimFactResellerSales",
+							"type": "Expression"
+						},
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "t01g16_DS_PROC_ADLS_DimFactResellerSales",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "t01g16_DS_PROC_ADW_DimFactResellerSales",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "t01g16"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-17T19:20:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

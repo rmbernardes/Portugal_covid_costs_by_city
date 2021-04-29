@@ -1,0 +1,65 @@
+{
+	"name": "i26923 - Do it ALL",
+	"properties": {
+		"activities": [
+			{
+				"name": "Ext-Proc DimCustomer",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "i26923 - Ingest CustomerInfo_Flow",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Extract Other Dims",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "i26923 - IngestAllTables",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Load All",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ext-Proc DimCustomer",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Extract Other Dims",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "i26923 - Data to DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/i26923"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-09T15:51:37Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

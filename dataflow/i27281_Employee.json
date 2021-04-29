@@ -1,0 +1,32 @@
+{
+	"name": "i27281_Employee",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "i000001_DS_PROC_ADLS_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "RAWEmployee"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "i000001_DS_PROC_ADLS_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "RAWEmployeeSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RAWEmployeeFilter"
+				}
+			],
+			"script": "source(output(\n\t\tCustomerKey as integer,\n\t\tGeographyKey as integer,\n\t\tCustomerAlternateKey as integer,\n\t\tTitle as string,\n\t\tFirstName as string,\n\t\tMiddleName as string,\n\t\tLastName as string,\n\t\tNameStyle as string,\n\t\tBirthDate as date 'dd/MM/yyyy',\n\t\tMaritalStatus as string,\n\t\tSuffix as string,\n\t\tGender as string,\n\t\tEmailAddress as string,\n\t\tYearlyIncome as integer,\n\t\tTotalChildren as integer,\n\t\tNumberChildrenAtHome as integer,\n\t\tEnglishEducation as string,\n\t\tEnglishOccupation as string,\n\t\tHouseOwnerFlag as string,\n\t\tNumberCarsOwned as decimal(10,0),\n\t\tPhone as integer,\n\t\tDateFirstPurchase as date 'dd/MM/yyyy',\n\t\tCommuteDistance as string,\n\t\tAddress as string,\n\t\tGenderDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWEmployee\nRAWEmployee filter(YearlyIncome>25000) ~> RAWEmployeeFilter\nRAWEmployeeFilter sink(input(\n\t\tCustomerKey as string,\n\t\tGeographyKey as string,\n\t\tCustomerAlternateKey as string,\n\t\tTitle as string,\n\t\tFirstName as string,\n\t\tMiddleName as string,\n\t\tLastName as string,\n\t\tNameStyle as string,\n\t\tBirthDate as string,\n\t\tMaritalStatus as string,\n\t\tSuffix as string,\n\t\tGender as string,\n\t\tEmailAddress as string,\n\t\tYearlyIncome as string,\n\t\tTotalChildren as string,\n\t\tNumberChildrenAtHome as string,\n\t\tEnglishEducation as string,\n\t\tEnglishOccupation as string,\n\t\tHouseOwnerFlag as string,\n\t\tNumberCarsOwned as string,\n\t\tPhone as string,\n\t\tDateFirstPurchase as string,\n\t\tCommuteDistance as string,\n\t\tAddress as string,\n\t\tGenderDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWEmployeeSink"
+		}
+	}
+}

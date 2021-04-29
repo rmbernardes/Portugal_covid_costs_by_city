@@ -1,0 +1,38 @@
+{
+	"name": "i27282_DS_RAW_ADLS_FactInternetSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27282_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "i27282_FactInternetSales.csv",
+				"folderPath": "t02/i27282",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "CurrencyKey",
+				"type": "String"
+			},
+			{
+				"name": "CurrencyAlternateKey",
+				"type": "String"
+			},
+			{
+				"name": "CurrencyName",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

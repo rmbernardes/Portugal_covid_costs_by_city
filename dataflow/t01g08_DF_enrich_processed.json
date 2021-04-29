@@ -1,0 +1,76 @@
+{
+	"name": "t01g08_DF_enrich_processed",
+	"properties": {
+		"description": "Performs data enrichment to PROCESS store",
+		"folder": {
+			"name": "t01g08"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "t01g08_DS_ADLS_PROCESSED_STORE",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDResellerSales"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g08_DS_ADLS_PROCESSED_STORE",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDProductCategory"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g08_DS_ADLS_PROCESSED_STORE",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDProductSubCategory"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g08_DS_ADLS_PROCESSED_STORE",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDProduct"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "t01g08_DS_ADLS_PROCESSED_STORE",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDResellerSalesSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "t01g08_DS_ADLS_PROCESSED_STORE",
+						"type": "DatasetReference"
+					},
+					"name": "PROCESSEDProductCategorySink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "PROCESSEDResellerSalesDistinctRows"
+				},
+				{
+					"name": "PROCESSEDResellerSalesDerivedColumn"
+				},
+				{
+					"name": "PROCESSEDResellerSalesLookup"
+				},
+				{
+					"name": "PROCESSEDResellerSalesSelect"
+				},
+				{
+					"name": "PROCESSEDProductCategoryJoin"
+				}
+			],
+			"script": "source(output(\n\t\tProductKey as short,\n\t\tOrderDateKey as date,\n\t\tShipDateKey as date,\n\t\tResellerKey as short,\n\t\tEmployeeKey as short,\n\t\tSalesTerritoryKey as short,\n\t\tOrderQuantity as short,\n\t\tTotalProductCost as double,\n\t\tSalesAmount as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\twildcardPaths:['t01/g08/PROCESSED/FactResellerSales.transform.csv']) ~> PROCESSEDResellerSales\nsource(output(\n\t\tProductCategoryKey as short,\n\t\tEnglishProductCategoryName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\twildcardPaths:['t01/g08/PROCESSED/DimProductCategory.transform.csv']) ~> PROCESSEDProductCategory\nsource(output(\n\t\tProductSubcategoryKey as short,\n\t\tEnglishProductSubcategoryName as string,\n\t\tProductCategoryKey as short\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\twildcardPaths:['t01/g08/PROCESSED/DimProductSubCategory.transform.csv']) ~> PROCESSEDProductSubCategory\nsource(output(\n\t\tProductKey as short,\n\t\tProductSubcategoryKey as short,\n\t\tEnglishProductName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\twildcardPaths:['t01/g08/PROCESSED/DimProduct.transform.csv']) ~> PROCESSEDProduct\nPROCESSEDResellerSales aggregate(groupBy(mycols = sha2(256,columns())),\n\teach(match(true()), $$ = first($$))) ~> PROCESSEDResellerSalesDistinctRows\nPROCESSEDResellerSalesDistinctRows derive(Country = 'USA',\n\t\tUnitCostAmount = divide(TotalProductCost, OrderQuantity)) ~> PROCESSEDResellerSalesDerivedColumn\nPROCESSEDResellerSalesDerivedColumn, PROCESSEDProduct lookup(PROCESSEDResellerSalesDistinctRows@ProductKey == PROCESSEDProduct@ProductKey,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> PROCESSEDResellerSalesLookup\nPROCESSEDResellerSalesLookup select(mapColumn(\n\t\tProductKey = PROCESSEDResellerSalesDistinctRows@ProductKey,\n\t\tOrderDateKey,\n\t\tShipDateKey,\n\t\tResellerKey,\n\t\tEmployeeKey,\n\t\tSalesTerritoryKey,\n\t\tOrderQuantity,\n\t\tTotalProductCost,\n\t\tSalesAmount,\n\t\tCountry,\n\t\tUnitCostAmount,\n\t\tProductKey = PROCESSEDProduct@ProductKey,\n\t\tProductSubcategoryKey,\n\t\tEnglishProductName\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PROCESSEDResellerSalesSelect\nPROCESSEDProductCategory, PROCESSEDProductSubCategory join(PROCESSEDProductCategory@ProductCategoryKey == PROCESSEDProductSubCategory@ProductCategoryKey,\n\tjoinType:'right',\n\tbroadcast: 'auto')~> PROCESSEDProductCategoryJoin\nPROCESSEDResellerSalesSelect sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['FactResellerSales.csv'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PROCESSEDResellerSalesSink\nPROCESSEDProductCategoryJoin sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DimProductCategorySubCat.csv'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PROCESSEDProductCategorySink"
+		}
+	}
+}

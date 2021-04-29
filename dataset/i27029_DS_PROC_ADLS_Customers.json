@@ -1,0 +1,101 @@
+{
+	"name": "i27029_DS_PROC_ADLS_Customers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27029_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "t01/i27029",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "20050101",
+				"type": "String"
+			},
+			{
+				"name": "2005-01-01 00:00:00.0000000",
+				"type": "String"
+			},
+			{
+				"name": "7",
+				"type": "String"
+			},
+			{
+				"name": "Saturday",
+				"type": "String"
+			},
+			{
+				"name": "Sábado",
+				"type": "String"
+			},
+			{
+				"name": "Samedi",
+				"type": "String"
+			},
+			{
+				"name": "16",
+				"type": "String"
+			},
+			{
+				"name": "17",
+				"type": "String"
+			},
+			{
+				"name": "18",
+				"type": "String"
+			},
+			{
+				"name": "January",
+				"type": "String"
+			},
+			{
+				"name": "Enero",
+				"type": "String"
+			},
+			{
+				"name": "Janvier",
+				"type": "String"
+			},
+			{
+				"name": "112",
+				"type": "String"
+			},
+			{
+				"name": "113",
+				"type": "String"
+			},
+			{
+				"name": "200514",
+				"type": "String"
+			},
+			{
+				"name": "115",
+				"type": "String"
+			},
+			{
+				"name": "3",
+				"type": "String"
+			},
+			{
+				"name": "200517",
+				"type": "String"
+			},
+			{
+				"name": "2",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

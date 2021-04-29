@@ -1,0 +1,43 @@
+{
+	"name": "i26776_00_DS_DW_SQLDB_Config",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i26776_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SourceTable",
+				"type": "varchar"
+			},
+			{
+				"name": "DestinationTable",
+				"type": "varchar"
+			},
+			{
+				"name": "active",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "lastExecution",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "lastExecutionDW",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "i26776",
+			"table": "ConfigParameters"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

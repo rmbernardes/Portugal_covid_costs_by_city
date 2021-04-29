@@ -1,0 +1,35 @@
+{
+	"name": "i27297_TransformGeografia",
+	"properties": {
+		"folder": {
+			"name": "i27297"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "i27297_DS_RAW_ADLS_geography",
+						"type": "DatasetReference"
+					},
+					"name": "RAWGeography"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "i27297_DS_PROC_ADLS_Geography",
+						"type": "DatasetReference"
+					},
+					"name": "RAWGegraphySink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "source(output(\n\t\tGeographyKey as short,\n\t\tCity as string,\n\t\tStateProvinceCode as string,\n\t\tStateProvinceName as string,\n\t\tCountryRegionCode as string,\n\t\tEnglishCountryRegionName as string,\n\t\tSpanishCountryRegionName as string,\n\t\tFrenchCountryRegionName as string,\n\t\tPostalCode as string,\n\t\tSalesTerritoryKey as short,\n\t\tIpAddressLocator as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWGeography\nRAWGeography select(mapColumn(\n\t\tGeographyKey,\n\t\tCity,\n\t\tStateProvinceCode,\n\t\tStateProvinceName,\n\t\tCountryRegionCode,\n\t\tEnglishCountryRegionName,\n\t\tPostalCode,\n\t\tSalesTerritoryKey,\n\t\tIpAddressLocator\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWGegraphySink"
+		}
+	}
+}

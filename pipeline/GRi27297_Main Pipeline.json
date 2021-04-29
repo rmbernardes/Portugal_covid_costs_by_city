@@ -1,0 +1,67 @@
+{
+	"name": "GRi27297_Main Pipeline",
+	"properties": {
+		"description": "Pipeline that will invoke all others",
+		"activities": [
+			{
+				"name": "Ingest data",
+				"description": "Ingest Customers",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "i27297 - ingest data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "IngestAllTablesLopp",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "GRi27297- Ingest All Tables Loop",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Egress",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "IngestAllTablesLopp",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "GRi27297 Egress To Azure DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/i27297"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-08T18:23:53Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

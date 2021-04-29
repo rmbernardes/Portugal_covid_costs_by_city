@@ -1,0 +1,20 @@
+{
+	"name": "t01g10_DS_DW_ProductCategorySubCat",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g10_LS_DW_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t01g10"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t01g10",
+			"table": "ProductCategorySubCat"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,45 @@
+{
+	"name": "t02g12_DS_PROC_ADLS_ResellerSales1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g12_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "t02/t02g12/PROCESSED",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "DateKey",
+				"type": "String"
+			},
+			{
+				"name": "FullDateAlternateKey",
+				"type": "String"
+			},
+			{
+				"name": "MonthNumberOfYear",
+				"type": "String"
+			},
+			{
+				"name": "CalendarQuarter",
+				"type": "String"
+			},
+			{
+				"name": "CalendarYear",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

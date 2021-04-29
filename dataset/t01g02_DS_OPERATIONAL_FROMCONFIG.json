@@ -1,0 +1,28 @@
+{
+	"name": "t01g02_DS_OPERATIONAL_FROMCONFIG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g02_LS_OPERATIONAL_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "t01g02"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().TABLE_NAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

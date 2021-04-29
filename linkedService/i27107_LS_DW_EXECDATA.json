@@ -1,0 +1,13 @@
+{
+	"name": "i27107_LS_DW_EXECDATA",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Get data from Datawarehouse",
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=sqldw2020.database.windows.net;initial catalog=dw;user id=i27107",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRXSU5UQVpEVEYwMl9mN2RjMzA3ZC0yNjFiLTQ4OWQtYTk2ZC1iNjk2NmY3MjVhZTgiDQp9"
+		}
+	}
+}

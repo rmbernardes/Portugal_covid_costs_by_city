@@ -1,0 +1,37 @@
+{
+	"name": "T02G09_DS_FactResellerSalesSink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g09_LS_",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "t02/g09/PROCESSED/FactResellerSales",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ProductSubcategoryKey",
+				"type": "String"
+			},
+			{
+				"name": "EnglishProductSubcategoryName",
+				"type": "String"
+			},
+			{
+				"name": "ProductCategoryKey",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

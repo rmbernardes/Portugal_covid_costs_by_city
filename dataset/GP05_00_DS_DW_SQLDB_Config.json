@@ -1,0 +1,43 @@
+{
+	"name": "GP05_00_DS_DW_SQLDB_Config",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GP05_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SourceTable",
+				"type": "varchar"
+			},
+			{
+				"name": "DestinationTable",
+				"type": "varchar"
+			},
+			{
+				"name": "active",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "lastExecution",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "lastExecutionDW",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "i27282",
+			"table": "ConfigParameters"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

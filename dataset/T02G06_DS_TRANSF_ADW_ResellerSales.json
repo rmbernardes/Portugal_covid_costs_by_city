@@ -1,0 +1,17 @@
+{
+	"name": "T02G06_DS_TRANSF_ADW_ResellerSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GP06_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t02g06",
+			"table": "ResellerSales"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

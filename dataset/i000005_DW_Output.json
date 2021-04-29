@@ -1,0 +1,102 @@
+{
+	"name": "i000005_DW_Output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i000005_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DateKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FullDateAlternateKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DayNumberOfWeek",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EnglishDayNameOfWeek",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SpanishDayNameOfWeek",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FrenchDayNameOfWeek",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DayNumberOfMonth",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DayNumberOfYear",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WeekNumberOfYear",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EnglishMonthName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SpanishMonthName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FrenchMonthName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MonthNumberOfYear",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CalendarQuarter",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CalendarYear",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CalendarSemester",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FiscalQuarter",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FiscalYear",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FiscalSemester",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "i000005",
+			"table": {
+				"value": "@dataset().TABLE_NAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

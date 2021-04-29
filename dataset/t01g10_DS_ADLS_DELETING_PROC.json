@@ -1,0 +1,27 @@
+{
+	"name": "t01g10_DS_ADLS_DELETING_PROC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g10_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@concat('t01/t01g10/PROCESSED/',dataset().TABLE_NAME)",
+					"type": "Expression"
+				},
+				"fileSystem": "storage"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

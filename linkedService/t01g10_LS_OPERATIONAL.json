@@ -1,0 +1,13 @@
+{
+	"name": "t01g10_LS_OPERATIONAL",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Linked service to connect data factory to operational database",
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=daesqlsrv01.database.windows.net;initial catalog=daesqldtb01;user id=daereader",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRXSU5UQVpEVEYwMl9kNGZiNzNkMS1lZThhLTQ2ZTgtOTdkMC1mMmVjMTQyYzk3M2YiDQp9"
+		}
+	}
+}

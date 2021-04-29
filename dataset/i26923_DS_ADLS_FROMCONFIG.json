@@ -1,0 +1,32 @@
+{
+	"name": "i26923_DS_ADLS_FROMCONFIG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i26923_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().TABLE_NAME,'.csv')",
+					"type": "Expression"
+				},
+				"folderPath": "t01/i26923/Raw",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,69 @@
+{
+	"name": "T02G06_PL_Ingest data from raw to processed and transfomed",
+	"properties": {
+		"description": "Ingest all tables from RAW ADLS to PROCESSED and TRANSFORMED ADLS",
+		"activities": [
+			{
+				"name": "T02G06_Ingest_from_raw_to_processed",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "T02G06_DF_Ingest_from_raw_to_processed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "T02G06_Transfomed_data",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "T02G06_Ingest_from_raw_to_processed",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "T02G06_Transfomed_data",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/T02G06"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T23:02:24Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

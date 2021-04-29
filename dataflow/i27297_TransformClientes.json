@@ -1,0 +1,35 @@
+{
+	"name": "i27297_TransformClientes",
+	"properties": {
+		"folder": {
+			"name": "i27297"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "i27297_DS_RAW_ADLS_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "RAWCustomers"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "i27297_DS_PROC_ADLS_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "RAWCustomersSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RAWCustomersSelected"
+				}
+			],
+			"script": "source(output(\n\t\tCustomerKey as string,\n\t\tGeographyKey as string,\n\t\tCustomerAlternateKey as string,\n\t\tTitle as string,\n\t\tFirstName as string,\n\t\tMiddleName as string,\n\t\tLastName as string,\n\t\tNameStyle as string,\n\t\tBirthDate as string,\n\t\tMaritalStatus as string,\n\t\tSuffix as string,\n\t\tGender as string,\n\t\tEmailAddress as string,\n\t\tYearlyIncome as string,\n\t\tTotalChildren as string,\n\t\tNumberChildrenAtHome as string,\n\t\tEnglishEducation as string,\n\t\tSpanishEducation as string,\n\t\tFrenchEducation as string,\n\t\tEnglishOccupation as string,\n\t\tSpanishOccupation as string,\n\t\tFrenchOccupation as string,\n\t\tHouseOwnerFlag as string,\n\t\tNumberCarsOwned as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tPhone as string,\n\t\tDateFirstPurchase as string,\n\t\tCommuteDistance as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWCustomers\nRAWCustomers select(mapColumn(\n\t\tCustomerKey,\n\t\tGeographyKey,\n\t\tCustomerAlternateKey,\n\t\tTitle,\n\t\tFirstName,\n\t\tMiddleName,\n\t\tLastName,\n\t\tNameStyle,\n\t\tBirthDate,\n\t\tMaritalStatus,\n\t\tSuffix,\n\t\tGender,\n\t\tEmailAddress,\n\t\tYearlyIncome,\n\t\tTotalChildren,\n\t\tNumberChildrenAtHome,\n\t\tEnglishEducation,\n\t\tEnglishOccupation,\n\t\tHouseOwnerFlag,\n\t\tNumberCarsOwned,\n\t\tAddressLine1,\n\t\tAddressLine2,\n\t\tPhone,\n\t\tDateFirstPurchase,\n\t\tCommuteDistance\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWCustomersSelected\nRAWCustomersSelected sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWCustomersSink"
+		}
+	}
+}

@@ -1,0 +1,38 @@
+{
+	"name": "i27390",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "i000001_DS_RAW_ADLS_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "RAWCustomers"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "i27390_DS_PROC_ADLS_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "RAWCustomersSorted"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RAWCustomersDerived"
+				},
+				{
+					"name": "RAWCustomersSelected"
+				},
+				{
+					"name": "RAWCustomersSortered"
+				}
+			],
+			"script": "source(output(\n\t\tCustomerKey as integer,\n\t\tGeographyKey as integer,\n\t\tCustomerAlternateKey as string,\n\t\tTitle as string,\n\t\tFirstName as string,\n\t\tMiddleName as string,\n\t\tLastName as string,\n\t\tNameStyle as boolean,\n\t\tBirthDate as date 'dd/MM/yyyy',\n\t\tMaritalStatus as string,\n\t\tSuffix as string,\n\t\tGender as string,\n\t\tEmailAddress as string,\n\t\tYearlyIncome as decimal(10,0),\n\t\tTotalChildren as integer,\n\t\tNumberChildrenAtHome as integer,\n\t\tEnglishEducation as string,\n\t\tSpanishEducation as string,\n\t\tFrenchEducation as string,\n\t\tEnglishOccupation as string,\n\t\tSpanishOccupation as string,\n\t\tFrenchOccupation as string,\n\t\tHouseOwnerFlag as string,\n\t\tNumberCarsOwned as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tPhone as string,\n\t\tDateFirstPurchase as date 'dd/MM/yyyy',\n\t\tCommuteDistance as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWCustomers\nRAWCustomers derive(Address = AddressLine1 + \" \" + AddressLine2,\n\t\t{ GenderDesciption} = iif(Gender==\"M\", \"Male\", \"Female\")) ~> RAWCustomersDerived\nRAWCustomersDerived select(mapColumn(\n\t\tCustomerKey,\n\t\tGeographyKey,\n\t\tCustomerAlternateKey,\n\t\tTitle,\n\t\tFirstName,\n\t\tMiddleName,\n\t\tLastName,\n\t\tNameStyle,\n\t\tBirthDate,\n\t\tMaritalStatus,\n\t\tSuffix,\n\t\tGender,\n\t\tEmailAddress,\n\t\tYearlyIncome,\n\t\tTotalChildren,\n\t\tNumberChildrenAtHome,\n\t\tEnglishEducation,\n\t\tEnglishOccupation,\n\t\tHouseOwnerFlag,\n\t\tNumberCarsOwned,\n\t\tPhone,\n\t\tDateFirstPurchase,\n\t\tCommuteDistance,\n\t\tAddress,\n\t\t{ GenderDesciption}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWCustomersSelected\nRAWCustomersSelected sort(asc(LastName, true),\n\tasc(MiddleName, true),\n\tasc(FirstName, true)) ~> RAWCustomersSortered\nRAWCustomersSortered sink(input(\n\t\tCustomerKey as string,\n\t\tGeographyKey as string,\n\t\tCustomerAlternateKey as string,\n\t\tTitle as string,\n\t\tFirstName as string,\n\t\tMiddleName as string,\n\t\tLastName as string,\n\t\tNameStyle as string,\n\t\tBirthDate as string,\n\t\tMaritalStatus as string,\n\t\tSuffix as string,\n\t\tGender as string,\n\t\tEmailAddress as string,\n\t\tYearlyIncome as string,\n\t\tTotalChildren as string,\n\t\tNumberChildrenAtHome as string,\n\t\tEnglishEducation as string,\n\t\tEnglishOccupation as string,\n\t\tHouseOwnerFlag as string,\n\t\tNumberCarsOwned as string,\n\t\tPhone as string,\n\t\tDateFirstPurchase as string,\n\t\tCommuteDistance as string,\n\t\tAddress as string,\n\t\tGenderDesciption as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWCustomersSorted"
+		}
+	}
+}

@@ -1,0 +1,32 @@
+{
+	"name": "i27180_transform_employee",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "i27180_DS_Raw_ADLS_Employee",
+						"type": "DatasetReference"
+					},
+					"name": "RAWemployee"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "i27180_DS_PROC_ADLS_Employee",
+						"type": "DatasetReference"
+					},
+					"name": "rawemployeesink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "filterbaserate"
+				}
+			],
+			"script": "source(output(\n\t\tEmployeeKey as string,\n\t\tParentEmployeeKey as string,\n\t\tEmployeeNationalIDAlternateKey as string,\n\t\tParentEmployeeNationalIDAlternateKey as string,\n\t\tSalesTerritoryKey as string,\n\t\tFirstName as string,\n\t\tLastName as string,\n\t\tMiddleName as string,\n\t\tNameStyle as string,\n\t\tTitle as string,\n\t\tHireDate as string,\n\t\tBirthDate as string,\n\t\tLoginID as string,\n\t\tEmailAddress as string,\n\t\tPhone as string,\n\t\tMaritalStatus as string,\n\t\tEmergencyContactName as string,\n\t\tEmergencyContactPhone as string,\n\t\tSalariedFlag as string,\n\t\tGender as string,\n\t\tPayFrequency as string,\n\t\tBaseRate as integer '000',\n\t\tVacationHours as string,\n\t\tSickLeaveHours as string,\n\t\tCurrentFlag as string,\n\t\tSalesPersonFlag as string,\n\t\tDepartmentName as string,\n\t\tStartDate as string,\n\t\tEndDate as string,\n\t\tStatus as string,\n\t\tEmployeePhoto as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> RAWemployee\nRAWemployee filter(BaseRate>30) ~> filterbaserate\nfilterbaserate sink(input(\n\t\tCustomerKey as string,\n\t\tGeographyKey as string,\n\t\tCustomerAlternateKey as string,\n\t\tTitle as string,\n\t\tFirstName as string,\n\t\tMiddleName as string,\n\t\tLastName as string,\n\t\tNameStyle as string,\n\t\tBirthDate as string,\n\t\tMaritalStatus as string,\n\t\tSuffix as string,\n\t\tGender as string,\n\t\tEmailAddress as string,\n\t\tYearlyIncome as string,\n\t\tTotalChildren as string,\n\t\tNumberChildrenAtHome as string,\n\t\tEnglishEducation as string,\n\t\tEnglishOccupation as string,\n\t\tHouseOwnerFlag as string,\n\t\tNumberCarsOwned as string,\n\t\tPhone as string,\n\t\tDateFirstPurchase as string,\n\t\tCommuteDistance as string,\n\t\tAddress as string,\n\t\tGenderDescription as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> rawemployeesink"
+		}
+	}
+}

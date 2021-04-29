@@ -1,0 +1,23 @@
+{
+	"name": "FactResellerSales_DW",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t02g13_LS_DataWarehouse",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "t02g13",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "FactResellerSales",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

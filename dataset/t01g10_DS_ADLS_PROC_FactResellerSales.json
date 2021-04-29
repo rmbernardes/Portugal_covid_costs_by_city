@@ -1,0 +1,27 @@
+{
+	"name": "t01g10_DS_ADLS_PROC_FactResellerSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g10_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t01g10"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "t01/t01g10/PROCESSED/FactResellerSales",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

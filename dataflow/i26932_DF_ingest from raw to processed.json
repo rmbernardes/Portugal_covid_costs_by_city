@@ -1,0 +1,41 @@
+{
+	"name": "i26932_DF_ingest from raw to processed",
+	"properties": {
+		"folder": {
+			"name": "i26932"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "i26932_DS_ADLS_RawEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "RawEmployee"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "i26932_DS_PROC_ADLS_Employee",
+						"type": "DatasetReference"
+					},
+					"name": "RawEmployeeSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RawEmployeeFilter"
+				},
+				{
+					"name": "RawEmployeeSelectedColumns"
+				},
+				{
+					"name": "RawEmployeeFullName"
+				}
+			],
+			"script": "source(output(\n\t\tEmployeeKey as string,\n\t\tParentEmployeeKey as string,\n\t\tEmployeeNationalIDAlternateKey as string,\n\t\tParentEmployeeNationalIDAlternateKey as string,\n\t\tSalesTerritoryKey as string,\n\t\tFirstName as string,\n\t\tLastName as string,\n\t\tMiddleName as string,\n\t\tNameStyle as string,\n\t\tTitle as string,\n\t\tHireDate as string,\n\t\tBirthDate as string,\n\t\tLoginID as string,\n\t\tEmailAddress as string,\n\t\tPhone as string,\n\t\tMaritalStatus as string,\n\t\tEmergencyContactName as string,\n\t\tEmergencyContactPhone as string,\n\t\tSalariedFlag as string,\n\t\tGender as string,\n\t\tPayFrequency as string,\n\t\tBaseRate as string,\n\t\tVacationHours as string,\n\t\tSickLeaveHours as string,\n\t\tCurrentFlag as string,\n\t\tSalesPersonFlag as boolean,\n\t\tDepartmentName as string,\n\t\tStartDate as string,\n\t\tEndDate as string,\n\t\tStatus as string,\n\t\tEmployeePhoto as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> RawEmployee\nRawEmployee filter(SalesPersonFlag==true()) ~> RawEmployeeFilter\nRawEmployeeFilter select(mapColumn(\n\t\tEmployeeKey,\n\t\tSalesTerritoryKey,\n\t\tFirstName,\n\t\tLastName,\n\t\tLoginID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RawEmployeeSelectedColumns\nRawEmployeeSelectedColumns derive(FullName = FirstName + ' ' + LastName) ~> RawEmployeeFullName\nRawEmployeeFullName sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RawEmployeeSink"
+		}
+	}
+}

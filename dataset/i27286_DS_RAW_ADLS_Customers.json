@@ -1,0 +1,25 @@
+{
+	"name": "i27286_DS_RAW_ADLS_Customers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27286_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "i27286_Customers.csv",
+				"folderPath": "t02/i27286",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

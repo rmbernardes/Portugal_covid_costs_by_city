@@ -1,0 +1,31 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"folder": {
+			"name": "TEST"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "i000000_DS_RAW_ADLS_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "itest_DS_PROC_ADLS_Customers",
+						"type": "DatasetReference"
+					},
+					"name": "RAWCustomersSink"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCustomerKey as string,\n\t\tGeographyKey as string,\n\t\tCustomerAlternateKey as string,\n\t\tTitle as string,\n\t\tFirstName as string,\n\t\tMiddleName as string,\n\t\tLastName as string,\n\t\tNameStyle as string,\n\t\tBirthDate as string,\n\t\tMaritalStatus as string,\n\t\tSuffix as string,\n\t\tGender as string,\n\t\tEmailAddress as string,\n\t\tYearlyIncome as string,\n\t\tTotalChildren as string,\n\t\tNumberChildrenAtHome as string,\n\t\tEnglishEducation as string,\n\t\tSpanishEducation as string,\n\t\tFrenchEducation as string,\n\t\tEnglishOccupation as string,\n\t\tSpanishOccupation as string,\n\t\tFrenchOccupation as string,\n\t\tHouseOwnerFlag as string,\n\t\tNumberCarsOwned as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tPhone as string,\n\t\tDateFirstPurchase as string,\n\t\tCommuteDistance as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RAWCustomersSink"
+		}
+	}
+}

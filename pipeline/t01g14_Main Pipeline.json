@@ -1,0 +1,67 @@
+{
+	"name": "t01g14_Main Pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Ingest All Tables to Raw",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g14_PL_Ingest from operational to raw",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Process Tables from Raw to Processed",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ingest All Tables to Raw",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g14_TransformSalesData",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ingest Tables to ADW",
+				"description": "Ingest all Processed tables from ADLS to ADW",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Process Tables from Raw to Processed",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g14_PL_Ingest from Processed to DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t01g14"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-14T20:53:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

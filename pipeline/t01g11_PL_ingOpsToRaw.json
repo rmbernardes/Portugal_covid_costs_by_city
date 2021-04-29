@@ -1,0 +1,124 @@
+{
+	"name": "t01g11_PL_ingOpsToRaw",
+	"properties": {
+		"description": "Pipeline para extração de dados Raw da base de dados Operacional, carregando-os no Data Lake.\nUtilização de foreach para otimização do processo através de uma atividade de LookUp e a utilização de uma tabela referência no Data Warehouse",
+		"activities": [
+			{
+				"name": "Lookup_TabNames",
+				"description": "Ligação ao DW destino final para retirar o nome de tabelas que serão extraídas do sistema operacional em passos seguintes",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "t01g11_DS_DW_ConfigTab",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Copy_Tab InForEach",
+				"description": "Recebe nomes de tabelas do passo de LookUp e efetua a atividade para cada resultado recebido da tabela configuração",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup_TabNames",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup_TabNames').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy LookupTable",
+							"description": "Nome de tabela registado sobre o parâmetro TableName. Utilizado para localizar tabela a extrair do sistema operacional. Utilizado para nomear ficheiro Raw armazenado no DataLake",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "t01g11_DS_OpsTab",
+									"type": "DatasetReference",
+									"parameters": {
+										"TableName": {
+											"value": "@item().SourceTable",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "t01g11_DS_ADLS_FROMCONFIG",
+									"type": "DatasetReference",
+									"parameters": {
+										"TableName": "@item().SourceTable"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/t01g11"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T15:51:51Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

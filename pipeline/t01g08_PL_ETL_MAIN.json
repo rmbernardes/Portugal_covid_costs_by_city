@@ -1,0 +1,70 @@
+{
+	"name": "t01g08_PL_ETL_MAIN",
+	"properties": {
+		"description": "Executes full ETL process",
+		"activities": [
+			{
+				"name": "t01g08_PL_ingest_from_operational_to_raw",
+				"description": "ETL phase: Extract",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g08_PL_ingest_from_operational_to_raw",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "t01g08_PL_ingest_from_processed_to_DW",
+				"description": "ETL phase: Load",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "t01g08_PL_ingest_from_raw_to_processed",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g08_PL_ingest_from_processed_to_DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "t01g08_PL_ingest_from_raw_to_processed",
+				"description": "ETL phase: Transform",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "t01g08_PL_ingest_from_operational_to_raw",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g08_PL_ingest_from_raw_to_processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t01g08"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-14T03:42:58Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

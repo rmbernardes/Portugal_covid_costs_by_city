@@ -1,0 +1,47 @@
+{
+	"name": "T02G09_PL_MainPipeline",
+	"properties": {
+		"description": "This pileline will evoke all the others",
+		"activities": [
+			{
+				"name": "IngestDatafromOperational",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g09_PL_ingest from operational to raw",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "IngestDatafromProcessed",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestDatafromOperational",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g09_PL_IngestFromProcessedToDw",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/T02G09"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-14T14:50:48Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

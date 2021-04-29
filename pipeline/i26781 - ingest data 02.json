@@ -1,0 +1,57 @@
+{
+	"name": "i26781 - ingest data 02",
+	"properties": {
+		"description": "ingest dbo.DimCurrency",
+		"activities": [
+			{
+				"name": "Ingest Currency DW Data to ADLS",
+				"description": " Ingest Currency table",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "i26781_DS_Operational_SQLDB_Currency",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "i26781_DS_RAW_ADLS_Currency",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "t01/i26781"
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-12-15T22:19:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

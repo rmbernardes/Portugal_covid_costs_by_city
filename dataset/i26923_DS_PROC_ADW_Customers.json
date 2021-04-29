@@ -1,0 +1,17 @@
+{
+	"name": "i26923_DS_PROC_ADW_Customers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i26923_LS_DW_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "i26923",
+			"table": "dimCustomer"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

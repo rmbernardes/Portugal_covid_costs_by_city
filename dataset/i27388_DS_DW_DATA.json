@@ -1,0 +1,25 @@
+{
+	"name": "i27388_DS_DW_DATA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GP27388_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "i27388",
+			"table": {
+				"value": "@dataset().TABLE_NAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

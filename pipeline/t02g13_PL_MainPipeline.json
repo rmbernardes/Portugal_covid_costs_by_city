@@ -1,0 +1,70 @@
+{
+	"name": "t02g13_PL_MainPipeline",
+	"properties": {
+		"description": "Pipeline to execute all procedure - ingestion to RAW Datalake, processing in Datalake and loading DW tables",
+		"activities": [
+			{
+				"name": "IngestOperationaltoRAW",
+				"description": "Execute first  pipeline to ingest operational data to Azure Datalake RAW area",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g13_PL_IngestFromOperational",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PrepDataRAWtoProc",
+				"description": "Prepare data from RAW to Processed in Datalake",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "IngestOperationaltoRAW",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g13_PL_RAW_to_Process",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "IngestProctoDW",
+				"description": "Ingest Processed data to DW",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PrepDataRAWtoProc",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t02g13_PL_Ingest_Process_to_DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/t02g13"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T14:46:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,70 @@
+{
+	"name": "t01g18_Main Pipeline",
+	"properties": {
+		"description": "Pipeline that will invoke all others",
+		"activities": [
+			{
+				"name": "t01g18_PL_ingest from operational to raw",
+				"description": "Ingesting all raw tables from the Operational Data Store to Azure Data Lake Store with a foreach loop",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g18_PL_ingest from operational to raw",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "t01g18_PL_raw to Processed",
+				"description": "Ingesting all data from raw storage folder to processed storage folder with dataflow transformations",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "t01g18_PL_ingest from operational to raw",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g18_PL_raw to Processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "t01g18_PL_ingest from processed to DW",
+				"description": "Ingest the ProductCategorySubCategory and FactResellersales tables to the Azure SQL DW Database\n",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "t01g18_PL_raw to Processed",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "t01g18_PL_ingest from processed to DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t01/t01g18"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-17T01:57:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

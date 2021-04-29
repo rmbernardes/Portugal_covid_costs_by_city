@@ -1,0 +1,170 @@
+{
+	"name": "t01g16_DS_RAW_ADLS_DimProduct",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g16_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DimProduct.csv",
+				"folderPath": "t01/g16/RAW",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ProductKey",
+				"type": "String"
+			},
+			{
+				"name": "ProductAlternateKey",
+				"type": "String"
+			},
+			{
+				"name": "ProductSubcategoryKey",
+				"type": "String"
+			},
+			{
+				"name": "WeightUnitMeasureCode",
+				"type": "String"
+			},
+			{
+				"name": "SizeUnitMeasureCode",
+				"type": "String"
+			},
+			{
+				"name": "EnglishProductName",
+				"type": "String"
+			},
+			{
+				"name": "SpanishProductName",
+				"type": "String"
+			},
+			{
+				"name": "FrenchProductName",
+				"type": "String"
+			},
+			{
+				"name": "StandardCost",
+				"type": "String"
+			},
+			{
+				"name": "FinishedGoodsFlag",
+				"type": "String"
+			},
+			{
+				"name": "Color",
+				"type": "String"
+			},
+			{
+				"name": "SafetyStockLevel",
+				"type": "String"
+			},
+			{
+				"name": "ReorderPoint",
+				"type": "String"
+			},
+			{
+				"name": "ListPrice",
+				"type": "String"
+			},
+			{
+				"name": "Size",
+				"type": "String"
+			},
+			{
+				"name": "SizeRange",
+				"type": "String"
+			},
+			{
+				"name": "Weight",
+				"type": "String"
+			},
+			{
+				"name": "DaysToManufacture",
+				"type": "String"
+			},
+			{
+				"name": "ProductLine",
+				"type": "String"
+			},
+			{
+				"name": "DealerPrice",
+				"type": "String"
+			},
+			{
+				"name": "Class",
+				"type": "String"
+			},
+			{
+				"name": "Style",
+				"type": "String"
+			},
+			{
+				"name": "ModelName",
+				"type": "String"
+			},
+			{
+				"name": "LargePhoto",
+				"type": "String"
+			},
+			{
+				"name": "EnglishDescription",
+				"type": "String"
+			},
+			{
+				"name": "FrenchDescription",
+				"type": "String"
+			},
+			{
+				"name": "ChineseDescription",
+				"type": "String"
+			},
+			{
+				"name": "ArabicDescription",
+				"type": "String"
+			},
+			{
+				"name": "HebrewDescription",
+				"type": "String"
+			},
+			{
+				"name": "ThaiDescription",
+				"type": "String"
+			},
+			{
+				"name": "GermanDescription",
+				"type": "String"
+			},
+			{
+				"name": "JapaneseDescription",
+				"type": "String"
+			},
+			{
+				"name": "TurkishDescription",
+				"type": "String"
+			},
+			{
+				"name": "StartDate",
+				"type": "String"
+			},
+			{
+				"name": "EndDate",
+				"type": "String"
+			},
+			{
+				"name": "Status",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

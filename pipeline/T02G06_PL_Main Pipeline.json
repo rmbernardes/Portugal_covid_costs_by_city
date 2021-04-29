@@ -1,0 +1,70 @@
+{
+	"name": "T02G06_PL_Main Pipeline",
+	"properties": {
+		"description": "Main Pipeline with all process",
+		"activities": [
+			{
+				"name": "T02G06 - Ingest data from Operational to RAW",
+				"description": "Ingest all raw data from Operacional database to ADLS",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "T02G06_PL_Ingest data from Operational to RAW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "T02G06 - Ingest data from raw to processed and transf",
+				"description": "1- Ingest raw data from ADLS from PROCESSED data to ADLS\n2 - Tranform and ingest data from Processed ADLS to TRANSF ADLS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "T02G06 - Ingest data from Operational to RAW",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "T02G06_PL_Ingest data from raw to processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "T02G06 - Ingest data from ADLS to DW",
+				"description": "Ingest data from Processed and transformed to Azure DW",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "T02G06 - Ingest data from raw to processed and transf",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "T02G06_PL_Ingest data from ADLS to DW",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/T02G06"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T22:47:38Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

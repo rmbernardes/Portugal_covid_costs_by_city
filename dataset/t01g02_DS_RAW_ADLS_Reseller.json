@@ -1,0 +1,109 @@
+{
+	"name": "t01g02_DS_RAW_ADLS_Reseller",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "t01g02_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "t01g02"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DimReseller.csv",
+				"folderPath": "t01/t01g02/RAW",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ResellerKey",
+				"type": "String"
+			},
+			{
+				"name": "GeographyKey",
+				"type": "String"
+			},
+			{
+				"name": "ResellerAlternateKey",
+				"type": "String"
+			},
+			{
+				"name": "Phone",
+				"type": "String"
+			},
+			{
+				"name": "BusinessType",
+				"type": "String"
+			},
+			{
+				"name": "ResellerName",
+				"type": "String"
+			},
+			{
+				"name": "NumberEmployees",
+				"type": "String"
+			},
+			{
+				"name": "OrderFrequency",
+				"type": "String"
+			},
+			{
+				"name": "OrderMonth",
+				"type": "String"
+			},
+			{
+				"name": "FirstOrderYear",
+				"type": "String"
+			},
+			{
+				"name": "LastOrderYear",
+				"type": "String"
+			},
+			{
+				"name": "ProductLine",
+				"type": "String"
+			},
+			{
+				"name": "AddressLine1",
+				"type": "String"
+			},
+			{
+				"name": "AddressLine2",
+				"type": "String"
+			},
+			{
+				"name": "AnnualSales",
+				"type": "String"
+			},
+			{
+				"name": "BankName",
+				"type": "String"
+			},
+			{
+				"name": "MinPaymentType",
+				"type": "String"
+			},
+			{
+				"name": "MinPaymentAmount",
+				"type": "String"
+			},
+			{
+				"name": "AnnualRevenue",
+				"type": "String"
+			},
+			{
+				"name": "YearOpened",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

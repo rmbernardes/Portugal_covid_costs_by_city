@@ -1,0 +1,17 @@
+{
+	"name": "t02g09_DS_DW_FactResellerSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "T02G09_LS_DW_FactResellerSales",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "t02g09",
+			"table": "FactResellersales"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

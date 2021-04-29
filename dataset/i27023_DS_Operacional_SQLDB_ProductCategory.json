@@ -1,0 +1,43 @@
+{
+	"name": "i27023_DS_Operacional_SQLDB_ProductCategory",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27023_LS_Operacional_Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "i27023"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "ProductCategoryKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProductCategoryAlternateKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "EnglishProductCategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SpanishProductCategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FrenchProductCategoryName",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DimProductCategory"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,67 @@
+{
+	"name": "i27038 - ingest data",
+	"properties": {
+		"description": "Pipeline for ingesting the data\nfrom the source systems",
+		"activities": [
+			{
+				"name": "Ingest Customer DW Data to ADLS",
+				"description": " Getting Customer data from Data\nWarehouse and storing it in Data Lake Store\n",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "i27038_DS_Operational_SQLDB_Customers",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "i27038_Customers",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "t01/i27038"
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-12-15T21:48:37Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

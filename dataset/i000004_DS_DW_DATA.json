@@ -1,0 +1,25 @@
+{
+	"name": "i000004_DS_DW_DATA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i000004_LS_DW_EXECDATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "i000004",
+			"table": {
+				"value": "@dataset().TABLE_NAME",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

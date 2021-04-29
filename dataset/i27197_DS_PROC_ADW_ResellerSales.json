@@ -1,0 +1,13 @@
+{
+	"name": "i27197_DS_PROC_ADW_ResellerSales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27197_LS_DW_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,38 @@
+{
+	"name": "t01g02_PL_Ingest Data Flow to Processed",
+	"properties": {
+		"activities": [
+			{
+				"name": "t01g02_DF_Tansform Data",
+				"description": "Transformations and ingest data from DL Raw storage to DL processed storage",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t01g02_DF_Tansform Data",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t01g02"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-13T23:09:39Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

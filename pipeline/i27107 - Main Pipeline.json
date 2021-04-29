@@ -1,0 +1,42 @@
+{
+	"name": "i27107 - Main Pipeline",
+	"properties": {
+		"description": "Pipeline that will invoke all others",
+		"activities": [
+			{
+				"name": "Ingest Customers Data",
+				"description": "Ingest Customers table ",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "i27107 - ingest customer data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ingest All Tables",
+				"description": "Ingest All Tables Loop",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "i27107 - Ingest All Tables Loop",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "t02/i27107"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-16T17:03:49Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

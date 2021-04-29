@@ -1,0 +1,13 @@
+{
+	"name": "t02g09_LS_DW_ProductCategorySubCat",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "t02g09ProductCategorySubCat",
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=sqldw2020.database.windows.net;initial catalog=dw;user id=t02g09",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRXSU5UQVpEVEYwMl9hN2YwYzU2OS0wNzY4LTRjMzMtYjJlMC1mNWEzN2E3OWVlMGMiDQp9"
+		}
+	}
+}

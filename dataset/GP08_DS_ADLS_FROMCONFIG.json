@@ -1,0 +1,150 @@
+{
+	"name": "GP08_DS_ADLS_FROMCONFIG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "i27197_LS_ADLS_DATA",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat(dataset().TABLE_NAME,'.csv')",
+					"type": "Expression"
+				},
+				"folderPath": "t01/i27197/Raw",
+				"fileSystem": "storage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "17806",
+				"type": "String"
+			},
+			{
+				"name": "127",
+				"type": "String"
+			},
+			{
+				"name": "AW00017806",
+				"type": "String"
+			},
+			{
+				"name": "Prop_3",
+				"type": "String"
+			},
+			{
+				"name": "Omar",
+				"type": "String"
+			},
+			{
+				"name": "E",
+				"type": "String"
+			},
+			{
+				"name": "Kumar",
+				"type": "String"
+			},
+			{
+				"name": "False",
+				"type": "String"
+			},
+			{
+				"name": "1969-10-12 00:00:00.0000000",
+				"type": "String"
+			},
+			{
+				"name": "M9",
+				"type": "String"
+			},
+			{
+				"name": "Prop_10",
+				"type": "String"
+			},
+			{
+				"name": "M11",
+				"type": "String"
+			},
+			{
+				"name": "omar27@adventure-works.com",
+				"type": "String"
+			},
+			{
+				"name": "20000.0000",
+				"type": "String"
+			},
+			{
+				"name": "214",
+				"type": "String"
+			},
+			{
+				"name": "215",
+				"type": "String"
+			},
+			{
+				"name": "High School",
+				"type": "String"
+			},
+			{
+				"name": "Educación secundaria",
+				"type": "String"
+			},
+			{
+				"name": "Bac + 2",
+				"type": "String"
+			},
+			{
+				"name": "Manual",
+				"type": "String"
+			},
+			{
+				"name": "Obrero",
+				"type": "String"
+			},
+			{
+				"name": "Ouvrier",
+				"type": "String"
+			},
+			{
+				"name": "0",
+				"type": "String"
+			},
+			{
+				"name": "223",
+				"type": "String"
+			},
+			{
+				"name": "Hansaallee 59",
+				"type": "String"
+			},
+			{
+				"name": "Prop_25",
+				"type": "String"
+			},
+			{
+				"name": "1 (11) 500 555-0125",
+				"type": "String"
+			},
+			{
+				"name": "2013-02-17 00:00:00.0000000",
+				"type": "String"
+			},
+			{
+				"name": "0-1 Miles",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

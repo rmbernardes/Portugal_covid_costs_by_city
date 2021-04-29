@@ -1,0 +1,9 @@
+{
+	"name": "dwintazdtf02",
+	"location": "northeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "206a4a58-498f-4350-b8f7-12673676948a",
+		"tenantId": "bd913315-e9b7-4c21-bbf2-c927f71d5d22"
+	}
+}

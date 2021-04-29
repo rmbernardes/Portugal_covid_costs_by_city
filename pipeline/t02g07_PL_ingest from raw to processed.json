@@ -1,0 +1,39 @@
+{
+	"name": "t02g07_PL_ingest from raw to processed",
+	"properties": {
+		"description": "Ingesting all data from raw storage folder to processed storage folder with dataflow activity transformations",
+		"activities": [
+			{
+				"name": "GR07_DF_ingest data from raw to processed",
+				"description": "Transformations required and ingest data from Data Lake Raw storage to Data Lake processed storage.",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "t02g07_DF_ingest from raw data to processed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "t02g07"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-01-08T16:54:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
