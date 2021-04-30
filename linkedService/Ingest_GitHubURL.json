@@ -1,0 +1,12 @@
+{
+	"name": "Ingest_GitHubURL",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://github.com/rmbernardes/Portugal_covid_costs_by_region/blob/main/concelhos-metadata.xlsx",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
